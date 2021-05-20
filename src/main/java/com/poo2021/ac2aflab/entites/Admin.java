@@ -8,6 +8,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.poo2021.ac2aflab.dto.AdminInsertDTO;
+
 @Entity
 @Table(name="TB_ADMIN")
 @PrimaryKeyJoinColumn(name="BASEUSER_ID")
@@ -31,12 +33,25 @@ public class Admin extends BaseUser {
         this.phoneNumber = phoneNumber;
     }
 
+    public Admin(AdminInsertDTO insertDTO) {
+        super(insertDTO.getName(), insertDTO.getEmail());
+        this.phoneNumber = insertDTO.getPhoneNumber();
+	}
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
     

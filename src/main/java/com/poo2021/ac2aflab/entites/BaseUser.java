@@ -11,7 +11,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TB_USER")
+@Table(name="TB_BASEUSER")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class BaseUser implements Serializable{
     
@@ -24,6 +24,11 @@ public class BaseUser implements Serializable{
 
     public BaseUser() {
 
+    }
+
+    public BaseUser(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
     public BaseUser(Long id, String name, String email) {
@@ -81,5 +86,8 @@ public class BaseUser implements Serializable{
         return true;
     }
 
+
+
+    
     
 }
