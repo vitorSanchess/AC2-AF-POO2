@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.poo2021.ac2aflab.dto.PlaceInsertDTO;
+
 @Entity
 @Table(name="TB_PLACE")
 public class Place {
@@ -29,7 +31,7 @@ public class Place {
             joinColumns =  @JoinColumn(name="PLACE_ID"),
             inverseJoinColumns = @JoinColumn(name="EVENT_ID")
     )
-    private List<Place> events = new ArrayList<>();
+    private List<Event> events = new ArrayList<>();
 
 
     public Place() {
@@ -41,6 +43,11 @@ public class Place {
         this.name = name;
         this.address = address;
     }
+
+    public Place(PlaceInsertDTO insertDTO) {
+        this.name = insertDTO.getName();
+        this.address = insertDTO.getAddress();
+	}
 
     public Long getId() {
         return id;
@@ -61,7 +68,14 @@ public class Place {
         this.address = address;
     }
 
-    
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
