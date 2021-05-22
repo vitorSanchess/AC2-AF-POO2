@@ -54,7 +54,8 @@ public class AttendeeService {
             Attendee entity = repo.getOne(id);
 
             entity.setName(updateDTO.getName());
-            entity.setBalance(updateDTO.getBalance());;
+            entity.setBalance(updateDTO.getBalance());
+            entity.setTickets(updateDTO.getTickets());
 
             entity = repo.save(entity);
             return new AttendeeDTO(entity);

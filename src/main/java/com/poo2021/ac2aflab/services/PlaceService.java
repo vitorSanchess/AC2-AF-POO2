@@ -54,6 +54,7 @@ public class PlaceService {
             Place entity = repo.getOne(id);
 
             entity.setName(updateDTO.getName());
+            entity.setEvents(updateDTO.getEvents());
 
             entity = repo.save(entity);
             return new PlaceDTO(entity);

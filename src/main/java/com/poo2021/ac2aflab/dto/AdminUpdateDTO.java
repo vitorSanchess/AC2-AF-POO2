@@ -32,8 +32,8 @@ public class AdminUpdateDTO {
         return events;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setEvents(Event e) {
+        events.add(e);
     }
 
    

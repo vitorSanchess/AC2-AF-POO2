@@ -3,14 +3,14 @@ package com.poo2021.ac2aflab.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.poo2021.ac2aflab.entites.Event;
+import com.poo2021.ac2aflab.entites.Ticket;
 
 public class AttendeeUpdateDTO {
     
     private String name;
     private Double balance;
 
-    private List<Event> events = new ArrayList<>();
+    private List<Ticket> tickets = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -28,12 +28,12 @@ public class AttendeeUpdateDTO {
         this.balance = balance;
     }
 
-    public List<Event> getEvents() {
-        return events;
+    public List<Ticket> getTickets() {
+        return tickets;
     }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     

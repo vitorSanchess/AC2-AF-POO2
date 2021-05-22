@@ -57,6 +57,7 @@ public class AdminService {
 
             entity.setName(updateDTO.getName());
             entity.setPhoneNumber(updateDTO.getPhoneNumber());
+            entity.setEvents(updateDTO.getEvents());
 
             entity = repo.save(entity);
             return new AdminDTO(entity);
