@@ -46,6 +46,12 @@ public class AdminController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<AdminDTO> getAdminById(@PathVariable Long id) {
+        AdminDTO dto = service.getAdminById(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
 	public ResponseEntity<AdminDTO> insert(@RequestBody AdminInsertDTO insertDto){
 		AdminDTO dto = service.insert(insertDto); 

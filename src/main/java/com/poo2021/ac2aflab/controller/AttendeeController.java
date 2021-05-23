@@ -46,6 +46,12 @@ public class AttendeeController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<AttendeeDTO> getAttendeeById(@PathVariable Long id) {
+        AttendeeDTO dto = service.getAttendeeById(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
 	public ResponseEntity<AttendeeDTO> insert(@RequestBody AttendeeInsertDTO insertDto){
 		AttendeeDTO dto = service.insert(insertDto); 

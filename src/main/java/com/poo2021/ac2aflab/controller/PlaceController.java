@@ -45,6 +45,12 @@ public class PlaceController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<PlaceDTO> getPlaceById(@PathVariable Long id) {
+        PlaceDTO dto = service.getPlaceById(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
 	public ResponseEntity<PlaceDTO> insert(@RequestBody PlaceInsertDTO insertDto){
 		PlaceDTO dto = service.insert(insertDto); 

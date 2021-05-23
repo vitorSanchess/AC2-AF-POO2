@@ -45,6 +45,12 @@ public class EventController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<EventDTO> getEventById(@PathVariable Long id) {
+        EventDTO dto = service.getEventById(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
 	public ResponseEntity<EventDTO> insert(@RequestBody EventInsertDTO insertDto){
 		EventDTO dto = service.insert(insertDto); 
