@@ -26,13 +26,16 @@ RA: 190093
 
 #### Places
 
+```json
 {  
    "name": "Predio A",  
     "address": "Rua B, numero 999"  
 }
+```
 
 #### Events
 
+```json
 {  
     "name": "Show de standup",  
     "description": "muito humor e risada",  
@@ -48,6 +51,4 @@ RA: 190093
     "tickets": [],  
     "placeId": 1  
 }
-
-
-
+```
