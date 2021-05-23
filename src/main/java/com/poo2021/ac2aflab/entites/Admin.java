@@ -13,7 +13,7 @@ import com.poo2021.ac2aflab.dto.AdminInsertDTO;
 
 @Entity
 @Table(name="TB_ADMIN")
-@PrimaryKeyJoinColumn(name="BASEUSER_ID")
+@PrimaryKeyJoinColumn(name="USER_ID")
 public class Admin extends BaseUser {
     
     public String phoneNumber;

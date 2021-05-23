@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import com.poo2021.ac2aflab.dto.AttendeeInsertDTO;
 
 @Entity
-@Table(name="TB_ATTEND")
-@PrimaryKeyJoinColumn(name="BASEUSER_ID")
+@Table(name="TB_ATTENDEE")
+@PrimaryKeyJoinColumn(name="USER_ID")
 public class Attendee extends BaseUser {
     
     private Double balance;
