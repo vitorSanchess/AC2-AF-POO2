@@ -3,9 +3,9 @@
 Nome: Vitor Guilherme Sanches Magnani de Sobral.  
 RA: 190093 
 
-#### Entidades
+### Entidades
 
-##### Admins
+#### Admins
 
 {
     "name": "Vitor",  
@@ -13,21 +13,21 @@ RA: 190093
     "phoneNumber": "(11) 96857455"
 }
 
-##### Attendees
+#### Attendees
 
 {
     "name": "Pedro",  
     "email": "pedro@hotmail.com"
 }
 
-##### Places
+#### Places
 
 {
    "name": "Predio A",  
     "address": "Rua B, numero 999"
 }
 
-##### Events
+#### Events
 
 {
     "name": "Show de standup",  
