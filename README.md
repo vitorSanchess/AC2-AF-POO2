@@ -7,18 +7,22 @@ RA: 190093
 
 #### Admins
 
+```json
 {  
     "name": "Vitor",  
     "email": "vitor@gmail.com",
     "phoneNumber": "(11) 96857455"  
 }
+```
 
 #### Attendees
 
+```json
 {  
     "name": "Pedro",  
     "email": "pedro@hotmail.com"  
 }
+```
 
 #### Places
 
