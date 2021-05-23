@@ -49,6 +49,7 @@ public class Event {
     @JoinColumn(name="TICKET_ID")
     private List<Ticket> tickets = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name="TB_EVENT_PLACE",

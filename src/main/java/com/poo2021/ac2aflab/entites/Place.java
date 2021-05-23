@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poo2021.ac2aflab.dto.PlaceInsertDTO;
 
 @Entity
@@ -25,6 +26,7 @@ public class Place {
     private String name;
     private String address;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name="TB_EVENT_PLACE",

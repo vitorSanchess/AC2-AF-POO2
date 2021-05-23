@@ -20,88 +20,76 @@ public class EventUpdateDTO {
     private Double priceTicket;
 
     private List<Ticket> tickets = new ArrayList<>();
+    private Long placeId;
     private List<Place> places = new ArrayList<>();
 
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public LocalDate getStartDate() {
         return startDate;
     }
-
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
-
     public LocalDate getEndDate() {
         return endDate;
     }
-
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
-
     public LocalTime getStartTime() {
         return startTime;
     }
-
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
-
     public LocalTime getEndTime() {
         return endTime;
     }
-
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
-
     public Long getAmountFreeTickets() {
         return amountFreeTickets;
     }
-
     public void setAmountFreeTickets(Long amountFreeTickets) {
         this.amountFreeTickets = amountFreeTickets;
     }
-
     public Long getAmountPayedTickets() {
         return amountPayedTickets;
     }
-
     public void setAmountPayedTickets(Long amountPayedTickets) {
         this.amountPayedTickets = amountPayedTickets;
     }
-
     public Double getPriceTicket() {
         return priceTicket;
     }
-
     public void setPriceTicket(Double priceTicket) {
         this.priceTicket = priceTicket;
     }
-
     public List<Ticket> getTickets() {
         return tickets;
     }
-
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
-
+    public Long getPlaceId() {
+        return placeId;
+    }
+    public void setPlaceId(Long placeId) {
+        this.placeId = placeId;
+    }
     public List<Place> getPlaces() {
         return places;
     }
-
     public void setPlaces(List<Place> places) {
         this.places = places;
     }
 
-    
 
+    
 }
