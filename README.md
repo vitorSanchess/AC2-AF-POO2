@@ -52,3 +52,4 @@ RA: 190093
     "placeId": 1  
 }
 ```
+obsersavação: os atributos adminId e placeId são utilizados apenas no no comando GET, enquanto nos outros comandos aparecerá as respectivas entidades se estiver alocada 
