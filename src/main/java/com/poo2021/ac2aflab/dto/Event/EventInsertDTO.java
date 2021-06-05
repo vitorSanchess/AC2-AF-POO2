@@ -24,7 +24,6 @@ public class EventInsertDTO {
 
     private Long adminId;
     private Admin admin;
-    private Long ticketId;
     private List<Ticket> tickets = new ArrayList<>();
     private Long placeId;
     private List<Place> places = new ArrayList<>();
@@ -100,12 +99,6 @@ public class EventInsertDTO {
     }
     public void setAdmin(Admin admin) {
         this.admin = admin;
-    }
-    public Long getTicketId() {
-        return ticketId;
-    }
-    public void setTicketId(Long ticketId) {
-        this.ticketId = ticketId;
     }
     public List<Ticket> getTickets() {
         return tickets;

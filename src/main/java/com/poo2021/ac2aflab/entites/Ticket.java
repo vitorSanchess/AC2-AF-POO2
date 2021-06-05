@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poo2021.ac2aflab.dto.Ticket.TicketInsertDTO;
 
 @Entity
@@ -27,10 +28,12 @@ public class Ticket {
     private Instant date;
     private Double price;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="EVENT_ID")
     private Event event;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="ATTEND_BASEUSER_ID")
     private Attendee attendee;

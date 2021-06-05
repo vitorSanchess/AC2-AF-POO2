@@ -1,5 +1,6 @@
 package com.poo2021.ac2aflab.services;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.NoSuchElementException;
@@ -12,10 +13,11 @@ import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
 import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
 import com.poo2021.ac2aflab.entites.Event;
 import com.poo2021.ac2aflab.entites.Place;
+import com.poo2021.ac2aflab.entites.Ticket;
 import com.poo2021.ac2aflab.repositories.AdminRepository;
 import com.poo2021.ac2aflab.repositories.EventRepository;
 import com.poo2021.ac2aflab.repositories.PlaceRepository;
-
+import com.poo2021.ac2aflab.repositories.TicketRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -36,6 +38,9 @@ public class EventService {
 
     @Autowired
     private PlaceRepository placeRepo;
+
+    @Autowired
+    private TicketRepository ticketRepo;
 
     public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description) {
         Page<Event> list = eventRepo.find(pageRequest, name, description);
@@ -58,6 +63,25 @@ public class EventService {
         } else {
             
             Event entity = new Event(insertDTO);
+
+            if(insertDTO.getAmountFreeTickets() > 0) {
+                Ticket ticket = new Ticket();
+                ticket.setEvent(entity);
+                //adicionar tipo
+                ticket.setDate(Instant.now());
+                ticket.setPrice(0.0);
+                entity.getTickets().add(ticket);
+            }
+
+            if(insertDTO.getAmountPayedTickets() > 0) {
+                Ticket payedTicket = new Ticket();
+                payedTicket.setEvent(entity);
+                //adicionar tipo
+                payedTicket.setDate(Instant.now());
+                payedTicket.setPrice(entity.getPriceTicket());
+                entity.getTickets().add(payedTicket);
+            }
+
             try{
                 entity.setAdmin(adminRepo.findById(insertDTO.getAdminId()).get());
             }catch (NoSuchElementException e) {
@@ -67,7 +91,7 @@ public class EventService {
             }catch (NoSuchElementException a) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found");
             }
-            entity = eventRepo.save(entity);
+                entity = eventRepo.save(entity);
             return new EventDTO(entity);
         }
     }
@@ -119,7 +143,10 @@ public class EventService {
 
         //se o horario inicial for maior que o horario final e estiverem no mesmo dia 
         if(insertDTO.getStartTime().isAfter(insertDTO.getEndTime()) && insertDTO.getStartDate().compareTo(insertDTO.getEndDate()) == 0)
+        {
             b = false;
+            return b;
+        }
         for(Event e: eventRepo.findAll()) {
 
             LocalTime startT = e.getStartTime();
@@ -173,7 +200,10 @@ public class EventService {
 
         //se o horario inicial for maior que o horario final e estiverem no mesmo dia 
         if(updateDTO.getStartTime().isAfter(updateDTO.getEndTime()) && updateDTO.getStartDate().compareTo(updateDTO.getEndDate()) == 0)
+        {
             b = false;
+            return b;
+        }
         for(Event e: eventRepo.findAll()) {
 
             LocalTime startT = e.getStartTime();

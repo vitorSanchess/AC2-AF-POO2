@@ -1,11 +1,14 @@
 package com.poo2021.ac2aflab.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import com.poo2021.ac2aflab.dto.Event.EventDTO;
 import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
 import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
 import com.poo2021.ac2aflab.services.EventService;
+import com.poo2021.ac2aflab.services.TicketService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +33,7 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @Autowired TicketService ticketService
+    @Autowired TicketService ticketService;
 
     @GetMapping
     public ResponseEntity<Page<EventDTO>> getEvents(
@@ -55,8 +58,9 @@ public class EventController {
     }
     
     @GetMapping("{id}/tickets")
-    public ResponseEntity<Ticket> getTicketsbyEventId(@PathVariable Long id) {
-        Ticket ticket =
+    public List<TicketDTO> getTicketsEvent(@PathVariable Long id) {
+        EventDTO dto = eventService.getEventById(id);
+        return ticketService.toDTOList(dto.getTickets());
     }
 
     @PostMapping

@@ -39,6 +39,11 @@ public class TicketDTO {
         setAttendee(ticket.getAttendee());
     }
 
+    public TicketDTO(String name) { //adicionar tipo
+        //setType(type);
+        attendee.setName(name);
+    }
+
     public Long getId() {
         return id;
     }

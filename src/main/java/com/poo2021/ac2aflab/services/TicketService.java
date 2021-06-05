@@ -1,8 +1,8 @@
 package com.poo2021.ac2aflab.services;
 
 import java.time.Instant;
-// import java.util.ArrayList;
-// import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -38,6 +38,10 @@ public class TicketService {
         return new TicketDTO(Ticket);
     }
 
+    public List<Ticket> getAllTickets() {
+        return repo.findAll();
+    }
+
     public TicketDTO insert(TicketInsertDTO insertDTO) {
         Ticket entity = new Ticket(insertDTO);
         entity = repo.save(entity);
@@ -66,13 +70,21 @@ public class TicketService {
         }
     }
 
-    // private List<TicketDTO> toDTOList(List<Ticket> list) {
-    //     List<TicketDTO> listDTO = new ArrayList<>();
+    public TicketDTO toDTO(Ticket ticket) { //adicionar tipo de ingresso
+        TicketDTO dto = new TicketDTO();
+        dto.setId(ticket.getId());
+        dto.setEvent(ticket.getEvent());
+        dto.setAttendee(ticket.getAttendee());
+        return dto;
+    }
 
-    //     for (Ticket a : list) {
-    //         listDTO.add(new TicketDTO(a.getId(), a.getName()));
-    //     }
-    //     return listDTO;
-    // }
+    public List<TicketDTO> toDTOList(List<Ticket> list) {
+        List<TicketDTO> listDTO = new ArrayList<>();
+
+        for (Ticket a : list) {
+            listDTO.add(toDTO(a)); //adicionar tipo
+        }
+        return listDTO;
+    }
 
 }
