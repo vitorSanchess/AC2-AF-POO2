@@ -1,9 +1,6 @@
 package com.poo2021.ac2aflab.dto.Ticket;
 
-import java.time.Instant;
-
 import com.poo2021.ac2aflab.entites.Attendee;
-import com.poo2021.ac2aflab.entites.Event;
 
 public class TicketUpdateDTO {
 

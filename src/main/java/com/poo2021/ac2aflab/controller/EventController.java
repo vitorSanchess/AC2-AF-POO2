@@ -5,7 +5,6 @@ import java.net.URI;
 import com.poo2021.ac2aflab.dto.Event.EventDTO;
 import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
 import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
-import com.poo2021.ac2aflab.entites.Ticket;
 import com.poo2021.ac2aflab.services.EventService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,8 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    @Autowired TicketService ticketService
+
     @GetMapping
     public ResponseEntity<Page<EventDTO>> getEvents(
         @RequestParam(value = "page",         defaultValue = "0") Integer page,
@@ -51,6 +52,11 @@ public class EventController {
     public ResponseEntity<EventDTO> getEventById(@PathVariable Long id) {
         EventDTO dto = eventService.getEventById(id);
         return ResponseEntity.ok().body(dto);
+    }
+    
+    @GetMapping("{id}/tickets")
+    public ResponseEntity<Ticket> getTicketsbyEventId(@PathVariable Long id) {
+        Ticket ticket =
     }
 
     @PostMapping

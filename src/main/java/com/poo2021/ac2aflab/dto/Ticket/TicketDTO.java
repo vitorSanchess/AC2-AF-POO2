@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import com.poo2021.ac2aflab.entites.Attendee;
 import com.poo2021.ac2aflab.entites.Event;
+import com.poo2021.ac2aflab.entites.Ticket;
 
 public class TicketDTO {
 
@@ -20,6 +21,23 @@ public class TicketDTO {
     private Event event;
 
     private Attendee attendee;
+
+    public TicketDTO() {
+
+    }
+
+    public TicketDTO(Long id, TicketType type) {
+        setId(id);
+        setType(type);
+    }
+
+    public TicketDTO(Ticket ticket) {
+        setId(ticket.getId());
+        setDate(ticket.getDate());
+        setPrice(ticket.getPrice());
+        setEvent(ticket.getEvent());
+        setAttendee(ticket.getAttendee());
+    }
 
     public Long getId() {
         return id;

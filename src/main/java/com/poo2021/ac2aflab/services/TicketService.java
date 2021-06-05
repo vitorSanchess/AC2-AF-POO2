@@ -1,16 +1,17 @@
 package com.poo2021.ac2aflab.services;
 
+import java.time.Instant;
 // import java.util.ArrayList;
 // import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import com.poo2021.ac2aflab.dto.Admin.AdminDTO;
-import com.poo2021.ac2aflab.dto.Admin.AdminInsertDTO;
-import com.poo2021.ac2aflab.dto.Admin.AdminUpdateDTO;
-import com.poo2021.ac2aflab.entites.Admin;
-import com.poo2021.ac2aflab.repositories.AdminRepository;
+import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketInsertDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketUpdateDTO;
+import com.poo2021.ac2aflab.entites.Ticket;
+import com.poo2021.ac2aflab.repositories.TicketRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,53 +25,52 @@ import org.springframework.web.server.ResponseStatusException;
 public class TicketService {
     
     @Autowired
-    private AdminRepository repo;
+    private TicketRepository repo;
 
-    public Page<AdminDTO> getAdmins(PageRequest pageRequest, String name, String email, String phoneNumber) {
-        Page<Admin> list = repo.find(pageRequest, name, email, phoneNumber);
-        return list.map( a -> new AdminDTO(a));
+    public Page<TicketDTO> getTickets(PageRequest pageRequest, Instant date, Double price) {
+        Page<Ticket> list = repo.find(pageRequest, date, price);
+        return list.map( a -> new TicketDTO(a));
     }
 
-    public AdminDTO getAdminById(Long id) {
-        Optional<Admin> op = repo.findById(id);
-        Admin admin = op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin not found"));
-        return new AdminDTO(admin);
+    public TicketDTO getTicketById(Long id) {
+        Optional<Ticket> op = repo.findById(id);
+        Ticket Ticket = op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found"));
+        return new TicketDTO(Ticket);
     }
 
-    public AdminDTO insert(AdminInsertDTO insertDTO) {
-        Admin entity = new Admin(insertDTO);
+    public TicketDTO insert(TicketInsertDTO insertDTO) {
+        Ticket entity = new Ticket(insertDTO);
         entity = repo.save(entity);
-        return new AdminDTO(entity);
+        return new TicketDTO(entity);
     }
 
     public void delete(Long id) {
         try {
             repo.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found");
         }
     }
 
-    public AdminDTO update(Long id, AdminUpdateDTO updateDTO) {
+    public TicketDTO update(Long id, TicketUpdateDTO updateDTO) {
         try {
-            Admin entity = repo.getOne(id);
+            Ticket entity = repo.getOne(id);
 
-            entity.setName(updateDTO.getName());
-            entity.setPhoneNumber(updateDTO.getPhoneNumber());
-            entity.setEvents(updateDTO.getEvents());
+            entity.setAttendee(updateDTO.getAttendee());
+            entity.setPrice(updateDTO.getPrice());
 
             entity = repo.save(entity);
-            return new AdminDTO(entity);
+            return new TicketDTO(entity);
         } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found");
         }
     }
 
-    // private List<AdminDTO> toDTOList(List<Admin> list) {
-    //     List<AdminDTO> listDTO = new ArrayList<>();
+    // private List<TicketDTO> toDTOList(List<Ticket> list) {
+    //     List<TicketDTO> listDTO = new ArrayList<>();
 
-    //     for (Admin a : list) {
-    //         listDTO.add(new AdminDTO(a.getId(), a.getName()));
+    //     for (Ticket a : list) {
+    //         listDTO.add(new TicketDTO(a.getId(), a.getName()));
     //     }
     //     return listDTO;
     // }
