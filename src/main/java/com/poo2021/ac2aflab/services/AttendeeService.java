@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import com.poo2021.ac2aflab.dto.AttendeeDTO;
-import com.poo2021.ac2aflab.dto.AttendeeInsertDTO;
-import com.poo2021.ac2aflab.dto.AttendeeUpdateDTO;
+import com.poo2021.ac2aflab.dto.Attendee.AttendeeDTO;
+import com.poo2021.ac2aflab.dto.Attendee.AttendeeInsertDTO;
+import com.poo2021.ac2aflab.dto.Attendee.AttendeeUpdateDTO;
 import com.poo2021.ac2aflab.entites.Attendee;
 import com.poo2021.ac2aflab.repositories.AttendeeRepository;
 

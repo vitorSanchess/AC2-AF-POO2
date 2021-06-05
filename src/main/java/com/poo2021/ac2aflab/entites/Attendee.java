@@ -9,7 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.poo2021.ac2aflab.dto.AttendeeInsertDTO;
+import com.poo2021.ac2aflab.dto.Attendee.AttendeeInsertDTO;
 
 @Entity
 @Table(name="TB_ATTENDEE")

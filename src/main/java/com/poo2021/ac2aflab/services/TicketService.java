@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class AdminService {
+public class TicketService {
     
     @Autowired
     private AdminRepository repo;

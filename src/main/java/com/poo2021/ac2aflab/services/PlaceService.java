@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import com.poo2021.ac2aflab.dto.PlaceDTO;
-import com.poo2021.ac2aflab.dto.PlaceInsertDTO;
-import com.poo2021.ac2aflab.dto.PlaceUpdateDTO;
+import com.poo2021.ac2aflab.dto.Place.PlaceDTO;
+import com.poo2021.ac2aflab.dto.Place.PlaceInsertDTO;
+import com.poo2021.ac2aflab.dto.Place.PlaceUpdateDTO;
 import com.poo2021.ac2aflab.entites.Place;
 import com.poo2021.ac2aflab.repositories.PlaceRepository;
 

@@ -1,4 +1,4 @@
-package com.poo2021.ac2aflab.dto;
+package com.poo2021.ac2aflab.dto.Place;
 
 public class PlaceInsertDTO {
     

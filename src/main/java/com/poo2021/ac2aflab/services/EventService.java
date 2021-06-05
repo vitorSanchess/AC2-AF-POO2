@@ -7,9 +7,9 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import com.poo2021.ac2aflab.dto.EventDTO;
-import com.poo2021.ac2aflab.dto.EventInsertDTO;
-import com.poo2021.ac2aflab.dto.EventUpdateDTO;
+import com.poo2021.ac2aflab.dto.Event.EventDTO;
+import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
+import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
 import com.poo2021.ac2aflab.entites.Event;
 import com.poo2021.ac2aflab.entites.Place;
 import com.poo2021.ac2aflab.repositories.AdminRepository;
@@ -129,9 +129,6 @@ public class EventService {
             for(Place p : e.getPlaces()) {
                 if(p.getId() == insertDTO.getPlaceId()) {
 
-                
-                
-            
                     //se a data INICIAL inserida for IGUAL a data INICIAL ja alocada OU se a data FINAL inserida for IGUAL a data FINAL ja alocada OU 
                     //se a data INICIAL inserida for IGUAL a data FINAL ja alocada OU se a data FINAL inserida for IGUAL a data INICIAL ja alocada OU 
                     //se a data INICIAL inserida estiver DEPOIS da data FINAL ja alocada E se a data INICIAL inserida estiver ANTES da data FINAL ja alocada OU

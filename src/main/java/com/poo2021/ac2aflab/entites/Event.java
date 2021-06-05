@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.poo2021.ac2aflab.dto.EventInsertDTO;
+import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
 
 @Entity
 @Table(name="TB_EVENT")

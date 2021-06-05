@@ -1,4 +1,4 @@
-package com.poo2021.ac2aflab.dto;
+package com.poo2021.ac2aflab.dto.Place;
 
 import java.util.ArrayList;
 import java.util.List;

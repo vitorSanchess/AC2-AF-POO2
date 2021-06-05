@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.poo2021.ac2aflab.dto.PlaceInsertDTO;
+import com.poo2021.ac2aflab.dto.Place.PlaceInsertDTO;
 
 @Entity
 @Table(name="TB_PLACE")

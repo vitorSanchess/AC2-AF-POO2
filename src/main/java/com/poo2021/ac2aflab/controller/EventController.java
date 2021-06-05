@@ -1,9 +1,11 @@
 package com.poo2021.ac2aflab.controller;
 
 import java.net.URI;
-import com.poo2021.ac2aflab.dto.EventDTO;
-import com.poo2021.ac2aflab.dto.EventInsertDTO;
-import com.poo2021.ac2aflab.dto.EventUpdateDTO;
+
+import com.poo2021.ac2aflab.dto.Event.EventDTO;
+import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
+import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
+import com.poo2021.ac2aflab.entites.Ticket;
 import com.poo2021.ac2aflab.services.EventService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class EventController {
     
     @Autowired
-    private EventService service;
+    private EventService eventService;
 
     @GetMapping
     public ResponseEntity<Page<EventDTO>> getEvents(
@@ -40,33 +42,34 @@ public class EventController {
     ){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
         
-        Page<EventDTO> list = service.getEvents(pageRequest, name.trim(), description.trim());
+        Page<EventDTO> list = eventService.getEvents(pageRequest, name.trim(), description.trim());
 
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<EventDTO> getEventById(@PathVariable Long id) {
-        EventDTO dto = service.getEventById(id);
+        EventDTO dto = eventService.getEventById(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
 	public ResponseEntity<EventDTO> insert(@RequestBody EventInsertDTO insertDto){
-		EventDTO dto = service.insert(insertDto); 
+		EventDTO dto = eventService.insert(insertDto); 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 
     @DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
-		service.delete(id); 
+		eventService.delete(id); 
 		return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
 	public ResponseEntity<EventDTO> update(@RequestBody EventUpdateDTO updateDto, @PathVariable Long id){
-		EventDTO dto = service.update(id, updateDto); 
+		EventDTO dto = eventService.update(id, updateDto); 
 		return ResponseEntity.ok().body(dto);
 	}
+
 }

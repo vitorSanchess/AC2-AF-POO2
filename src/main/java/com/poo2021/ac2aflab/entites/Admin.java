@@ -9,7 +9,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.poo2021.ac2aflab.dto.AdminInsertDTO;
+import com.poo2021.ac2aflab.dto.Admin.AdminInsertDTO;
 
 @Entity
 @Table(name="TB_ADMIN")
