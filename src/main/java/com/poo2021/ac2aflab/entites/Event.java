@@ -45,6 +45,7 @@ public class Event {
     @JoinColumn(name="ADMIN_BASEUSER_ID")
     private Admin admin;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name="TICKET_ID")
     private List<Ticket> tickets = new ArrayList<>();

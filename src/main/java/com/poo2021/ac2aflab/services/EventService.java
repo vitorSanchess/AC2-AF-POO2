@@ -71,6 +71,7 @@ public class EventService {
                 ticket.setDate(Instant.now());
                 ticket.setPrice(0.0);
                 entity.getTickets().add(ticket);
+                //ticketRepo.save(ticket);
             }
 
             if(insertDTO.getAmountPayedTickets() > 0) {
@@ -80,6 +81,7 @@ public class EventService {
                 payedTicket.setDate(Instant.now());
                 payedTicket.setPrice(entity.getPriceTicket());
                 entity.getTickets().add(payedTicket);
+                //ticketRepo.save(payedTicket);
             }
 
             try{
@@ -91,7 +93,9 @@ public class EventService {
             }catch (NoSuchElementException a) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found");
             }
-                entity = eventRepo.save(entity);
+            
+            entity = eventRepo.save(entity);
+            ticketRepo.saveAll(entity.getTickets());
             return new EventDTO(entity);
         }
     }

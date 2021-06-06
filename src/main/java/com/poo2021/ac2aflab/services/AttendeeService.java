@@ -1,6 +1,5 @@
 package com.poo2021.ac2aflab.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -9,9 +8,7 @@ import com.poo2021.ac2aflab.dto.Attendee.AttendeeDTO;
 import com.poo2021.ac2aflab.dto.Attendee.AttendeeInsertDTO;
 import com.poo2021.ac2aflab.dto.Attendee.AttendeeUpdateDTO;
 import com.poo2021.ac2aflab.entites.Attendee;
-import com.poo2021.ac2aflab.entites.Ticket;
 import com.poo2021.ac2aflab.repositories.AttendeeRepository;
-import com.poo2021.ac2aflab.repositories.TicketRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -26,9 +23,6 @@ public class AttendeeService {
     
     @Autowired
     private AttendeeRepository repo;
-
-    @Autowired
-    private TicketRepository ticketRepo;
 
     public Page<AttendeeDTO> getAttendees(PageRequest pageRequest, String name, String email, Double balance) {
         Page<Attendee> list = repo.find(pageRequest, name, email, balance);

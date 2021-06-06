@@ -1,6 +1,5 @@
 package com.poo2021.ac2aflab.services;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +26,8 @@ public class TicketService {
     @Autowired
     private TicketRepository repo;
 
-    public Page<TicketDTO> getTickets(PageRequest pageRequest, Instant date, Double price) {
-        Page<Ticket> list = repo.find(pageRequest, date, price);
+    public Page<TicketDTO> getTickets(PageRequest pageRequest, Double price) {
+        Page<Ticket> list = repo.find(pageRequest, price);
         return list.map( a -> new TicketDTO(a));
     }
 
