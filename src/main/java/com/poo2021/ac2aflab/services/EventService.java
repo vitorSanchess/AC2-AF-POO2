@@ -144,6 +144,29 @@ public class EventService {
         }
     }
 
+    public void deletePlace(long eventId, Long placeId) {
+        Event event;
+        Place place;
+
+        try{
+            event = eventRepo.findById(eventId).get();
+        }catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
+        }
+
+        try{
+            place = placeRepo.findById(placeId).get();
+        }catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found");
+        }
+
+        if(!event.getPlaces().contains(place))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found");
+
+        event.getPlaces().remove(place);
+        eventRepo.save(event);
+    }
+
     public EventDTO update(Long id, EventUpdateDTO updateDTO) {
 
         if (updateDTO.getStartDate().compareTo(updateDTO.getEndDate()) > 0) {

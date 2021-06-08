@@ -90,6 +90,12 @@ public class EventController {
 		return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("{eventId}/places/{placeId}")
+    public ResponseEntity<Void> deletePlace(@PathVariable Long eventId, @PathVariable Long placeId) {
+        eventService.deletePlace(eventId, placeId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("{id}")
 	public ResponseEntity<EventDTO> update(@RequestBody EventUpdateDTO updateDto, @PathVariable Long id){
 		EventDTO dto = eventService.update(id, updateDto); 
