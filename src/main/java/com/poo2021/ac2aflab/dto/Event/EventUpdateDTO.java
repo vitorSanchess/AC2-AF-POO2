@@ -20,7 +20,6 @@ public class EventUpdateDTO {
     private Double priceTicket;
 
     private List<Ticket> tickets = new ArrayList<>();
-    private Long placeId;
     private List<Place> places = new ArrayList<>();
 
     public String getDescription() {
@@ -76,12 +75,6 @@ public class EventUpdateDTO {
     }
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
-    }
-    public Long getPlaceId() {
-        return placeId;
-    }
-    public void setPlaceId(Long placeId) {
-        this.placeId = placeId;
     }
     public List<Place> getPlaces() {
         return places;

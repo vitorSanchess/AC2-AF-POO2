@@ -6,8 +6,10 @@ import java.util.List;
 import com.poo2021.ac2aflab.dto.Event.EventDTO;
 import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
 import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
+import com.poo2021.ac2aflab.dto.Place.PlaceDTO;
 import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
 import com.poo2021.ac2aflab.services.EventService;
+import com.poo2021.ac2aflab.services.PlaceService;
 import com.poo2021.ac2aflab.services.TicketService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,11 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @Autowired TicketService ticketService;
+    @Autowired 
+    private TicketService ticketService;
+
+    @Autowired
+    private PlaceService placeService;
 
     @GetMapping
     public ResponseEntity<Page<EventDTO>> getEvents(
@@ -69,6 +75,14 @@ public class EventController {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
+
+    @PostMapping("{eventId}/places/{placeId}")
+    public ResponseEntity<EventDTO> insertPlace(@PathVariable Long eventId, @PathVariable Long placeId) {
+        EventDTO dto = eventService.insertPlace(eventId, placeId);
+        PlaceDTO place = placeService.getPlaceById(placeId);
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{eventId}/places/{placeId}").buildAndExpand(dto.getId(), place.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
+    }
 
     @DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){

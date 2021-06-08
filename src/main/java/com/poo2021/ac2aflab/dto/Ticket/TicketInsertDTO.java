@@ -2,11 +2,10 @@ package com.poo2021.ac2aflab.dto.Ticket;
 
 import java.time.Instant;
 
+import com.poo2021.ac2aflab.entites.Ticket.TicketType;
+
 public class TicketInsertDTO {
 
-    private enum TicketType{
-        FREE, PAYED
-    }
     private TicketType type;
     private Instant date;
     private Double price;

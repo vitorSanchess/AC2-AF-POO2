@@ -21,7 +21,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private enum TicketType{
+    public enum TicketType{
         FREE, PAYED
     }
     private TicketType type;

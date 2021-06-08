@@ -5,15 +5,13 @@ import java.time.Instant;
 import com.poo2021.ac2aflab.entites.Attendee;
 import com.poo2021.ac2aflab.entites.Event;
 import com.poo2021.ac2aflab.entites.Ticket;
+import com.poo2021.ac2aflab.entites.Ticket.TicketType;
 
 public class TicketDTO {
 
 
     private Long id;
 
-    private enum TicketType{
-        FREE, PAYED
-    }
     private TicketType type;
     private Instant date;
     private Double price;
