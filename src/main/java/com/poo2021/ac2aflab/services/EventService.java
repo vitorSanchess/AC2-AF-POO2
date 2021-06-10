@@ -14,6 +14,7 @@ import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
 import com.poo2021.ac2aflab.entites.Event;
 import com.poo2021.ac2aflab.entites.Place;
 import com.poo2021.ac2aflab.entites.Ticket;
+import com.poo2021.ac2aflab.entites.Ticket.TicketType;
 import com.poo2021.ac2aflab.repositories.AdminRepository;
 import com.poo2021.ac2aflab.repositories.EventRepository;
 import com.poo2021.ac2aflab.repositories.PlaceRepository;
@@ -59,6 +60,10 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "The end date should be bigger than the start date!");
         }
+        if (insertDTO.getStartDate().isBefore(LocalDate.now())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "Cannot insert events in the past!");
+        }
 
         Event entity = new Event(insertDTO);
         Place place;
@@ -81,23 +86,25 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Confilicting date time!");
 
         if(insertDTO.getAmountFreeTickets() > 0) {
-            Ticket ticket = new Ticket();
-            ticket.setEvent(entity);
-            //adicionar tipo
-            ticket.setDate(Instant.now());
-            ticket.setPrice(0.0);
-            entity.getTickets().add(ticket);
-            //ticketRepo.save(ticket);
+            for (int i = 0 ; i < insertDTO.getAmountFreeTickets(); i++) {
+                Ticket ticket = new Ticket();
+                ticket.setEvent(entity);
+                ticket.setType(TicketType.FREE);
+                ticket.setDate(Instant.now());
+                ticket.setPrice(0.0);
+                entity.getTickets().add(ticket);
+            }
         }
 
         if(insertDTO.getAmountPayedTickets() > 0) {
-            Ticket payedTicket = new Ticket();
-            payedTicket.setEvent(entity);
-            //adicionar tipo
-            payedTicket.setDate(Instant.now());
-            payedTicket.setPrice(entity.getPriceTicket());
-            entity.getTickets().add(payedTicket);
-            //ticketRepo.save(payedTicket);
+            for (int i = 0 ; i < insertDTO.getAmountPayedTickets(); i++) {
+                Ticket payedTicket = new Ticket();
+                payedTicket.setEvent(entity);
+                payedTicket.setType(TicketType.PAYED);
+                payedTicket.setDate(Instant.now());
+                payedTicket.setPrice(entity.getPriceTicket());
+                entity.getTickets().add(payedTicket);
+            }
         }
         
         entity = eventRepo.save(entity);
@@ -172,14 +179,12 @@ public class EventService {
         if (updateDTO.getStartDate().compareTo(updateDTO.getEndDate()) > 0) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "The end date should be bigger than the start date!");
-        } else if (updateDTO.getStartDate().compareTo(LocalDate.now()) < 0) {
+        } else if (updateDTO.getStartDate().isBefore(LocalDate.now())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                     "Cannot update past events!");
         } else{
             try {
                 Event entity = eventRepo.getOne(id);
-                if(!isDateTimeValid(entity))
-                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Confilicting date time!");
 
                 entity.setDescription(updateDTO.getDescription());
                 entity.setStartDate(updateDTO.getStartDate());
@@ -190,6 +195,9 @@ public class EventService {
                 entity.setPriceTicket(updateDTO.getPriceTicket());
                 entity.setTickets(updateDTO.getTickets());
                 entity.setPlaces(updateDTO.getPlaces());
+
+                if(!isDateTimeValid(entity))
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Confilicting date time!");
 
                 entity = eventRepo.save(entity);
                 return new EventDTO(entity);
