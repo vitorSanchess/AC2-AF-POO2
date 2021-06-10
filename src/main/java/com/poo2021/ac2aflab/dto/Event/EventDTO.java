@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poo2021.ac2aflab.entites.Admin;
 import com.poo2021.ac2aflab.entites.Event;
 import com.poo2021.ac2aflab.entites.Place;
@@ -25,6 +26,7 @@ public class EventDTO {
     private Double priceTicket;
 
     private Admin admin;
+    @JsonIgnore
     private List<Ticket> tickets = new ArrayList<>();
     private List<Place> places = new ArrayList<>();
 
