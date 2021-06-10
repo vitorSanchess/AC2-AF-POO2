@@ -22,28 +22,30 @@ import org.springframework.web.server.ResponseStatusException;
 public class PlaceService {
     
     @Autowired
-    private PlaceRepository repo;
+    private PlaceRepository placeRepo;
 
     public Page<PlaceDTO> getPlaces(PageRequest pageRequest, String name, String address) {
-        Page<Place> list = repo.find(pageRequest, name, address);
+        Page<Place> list = placeRepo.find(pageRequest, name, address);
         return list.map( a -> new PlaceDTO(a));
     }
 
     public PlaceDTO getPlaceById(Long id) {
-        Optional<Place> op = repo.findById(id);
+        Optional<Place> op = placeRepo.findById(id);
         Place Place = op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found"));
         return new PlaceDTO(Place);
     }
 
     public PlaceDTO insert(PlaceInsertDTO insertDTO) {
         Place entity = new Place(insertDTO);
-        entity = repo.save(entity);
+        entity = placeRepo.save(entity);
         return new PlaceDTO(entity);
     }
 
     public void delete(Long id) {
+        if(!placeRepo.findById(id).get().getEvents().isEmpty())
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Can't delete a place that has been used");
         try {
-            repo.deleteById(id);
+            placeRepo.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found");
         }
@@ -51,12 +53,12 @@ public class PlaceService {
 
     public PlaceDTO update(Long id, PlaceUpdateDTO updateDTO) {
         try {
-            Place entity = repo.getOne(id);
+            Place entity = placeRepo.getOne(id);
 
             entity.setName(updateDTO.getName());
             entity.setEvents(updateDTO.getEvents());
 
-            entity = repo.save(entity);
+            entity = placeRepo.save(entity);
             return new PlaceDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found");
