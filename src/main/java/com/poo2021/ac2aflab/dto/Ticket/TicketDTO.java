@@ -2,6 +2,7 @@ package com.poo2021.ac2aflab.dto.Ticket;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poo2021.ac2aflab.entites.Attendee;
 import com.poo2021.ac2aflab.entites.Event;
 import com.poo2021.ac2aflab.entites.Ticket;
@@ -16,6 +17,7 @@ public class TicketDTO {
     private Instant date;
     private Double price;
 
+    @JsonIgnore
     private Event event;
 
     private Attendee attendee;

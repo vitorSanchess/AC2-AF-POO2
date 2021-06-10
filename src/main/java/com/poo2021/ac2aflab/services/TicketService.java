@@ -72,6 +72,9 @@ public class TicketService {
     public TicketDTO toDTO(Ticket ticket) { //adicionar tipo de ingresso
         TicketDTO dto = new TicketDTO();
         dto.setId(ticket.getId());
+        dto.setType(ticket.getType());
+        dto.setDate(ticket.getDate());
+        dto.setPrice(ticket.getPrice());
         dto.setEvent(ticket.getEvent());
         dto.setAttendee(ticket.getAttendee());
         return dto;
