@@ -3,6 +3,7 @@ package com.poo2021.ac2aflab.services;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -144,6 +145,11 @@ public class EventService {
 
 
     public void delete(Long id) {
+        List<Ticket> tickets = eventRepo.findById(id).get().getTickets();
+        for(Ticket t : tickets) {
+            if(t.getAttendee() != null)
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Can't delete a event that already sold tickets");
+        }
         try {
             eventRepo.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
