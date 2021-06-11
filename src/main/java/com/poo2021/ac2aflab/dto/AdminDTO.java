@@ -30,7 +30,7 @@ public class AdminDTO {
         setEmail(admin.getEmail());
         setPhoneNumber(admin.getPhoneNumber());
         setEvents(admin.getEvents());
-        }
+    }
 
     public Long getId() {
         return id;

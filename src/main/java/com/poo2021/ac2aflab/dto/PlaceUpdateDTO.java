@@ -5,10 +5,9 @@ import java.util.List;
 
 import com.poo2021.ac2aflab.entites.Event;
 
-public class AdminUpdateDTO {
+public class PlaceUpdateDTO {
     
     private String name;
-    private String phoneNumber;
 
     private List<Event> events = new ArrayList<>();
 
@@ -20,23 +19,13 @@ public class AdminUpdateDTO {
         this.name = name;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public List<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(Event e) {
-        events.add(e);
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
-
-   
 
     
 }

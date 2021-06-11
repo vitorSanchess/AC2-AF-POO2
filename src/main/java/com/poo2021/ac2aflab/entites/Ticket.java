@@ -31,7 +31,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name="ATTEND_BASEUSER_ID")
-    private Attend attend;
+    private Attendee attendee;
 
 
 

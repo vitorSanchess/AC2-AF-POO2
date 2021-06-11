@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.poo2021.ac2aflab.dto.EventInsertDTO;
+
 @Entity
 @Table(name="TB_EVENT")
 public class Event {
@@ -36,6 +39,8 @@ public class Event {
     private Long amountPayedTickets;
     private Double priceTicket;
 
+    
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="ADMIN_BASEUSER_ID")
     private Admin admin;
@@ -44,6 +49,7 @@ public class Event {
     @JoinColumn(name="TICKET_ID")
     private List<Ticket> tickets = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name="TB_EVENT_PLACE",
@@ -69,74 +75,135 @@ public class Event {
         this.emailContact = emailContact;
         this.amountFreeTickets = amountFreeTickets;
         this.amountPayedTickets = amountPayedTickets;
-        this.priceTicket = priceTicket;
+        this.priceTicket = priceTicket;    
+    }
+
+    public Event(EventInsertDTO insertDTO) {
+    this.name = insertDTO.getName();
+    this.description = insertDTO.getDescription();
+    this.startDate = insertDTO.getStartDate();
+    this.endDate = insertDTO.getEndDate();
+    this.startTime = insertDTO.getStartTime();
+    this.endTime = insertDTO.getEndTime();
+    this.emailContact = insertDTO.getEmailContact();
+    this.amountFreeTickets = insertDTO.getAmountFreeTickets();
+    this.amountPayedTickets = insertDTO.getAmountPayedTickets();
+    this.priceTicket = insertDTO.getPriceTicket();
+    this.admin = insertDTO.getAdmin();
+    this.tickets = insertDTO.getTickets();
+    this.places = insertDTO.getPlaces();
     }
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public LocalDate getStartDate() {
         return startDate;
     }
+
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
+
     public LocalDate getEndDate() {
         return endDate;
     }
+
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
     public LocalTime getStartTime() {
         return startTime;
     }
+
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
+
     public LocalTime getEndTime() {
         return endTime;
     }
+
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
+
     public String getEmailContact() {
         return emailContact;
     }
+
     public void setEmailContact(String emailContact) {
         this.emailContact = emailContact;
     }
+
     public Long getAmountFreeTickets() {
         return amountFreeTickets;
     }
+
     public void setAmountFreeTickets(Long amountFreeTickets) {
         this.amountFreeTickets = amountFreeTickets;
     }
+
     public Long getAmountPayedTickets() {
         return amountPayedTickets;
     }
+
     public void setAmountPayedTickets(Long amountPayedTickets) {
         this.amountPayedTickets = amountPayedTickets;
     }
+
     public Double getPriceTicket() {
         return priceTicket;
     }
+
     public void setPriceTicket(Double priceTicket) {
         this.priceTicket = priceTicket;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public List<Place> getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(List<Place> places) {
+        this.places = places;
     }
 
     @Override

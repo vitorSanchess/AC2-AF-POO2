@@ -1,10 +1,10 @@
 package com.poo2021.ac2aflab.controller;
 
 import java.net.URI;
-import com.poo2021.ac2aflab.dto.AdminDTO;
-import com.poo2021.ac2aflab.dto.AdminInsertDTO;
-import com.poo2021.ac2aflab.dto.AdminUpdateDTO;
-import com.poo2021.ac2aflab.services.AdminService;
+import com.poo2021.ac2aflab.dto.PlaceDTO;
+import com.poo2021.ac2aflab.dto.PlaceInsertDTO;
+import com.poo2021.ac2aflab.dto.PlaceUpdateDTO;
+import com.poo2021.ac2aflab.services.PlaceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,38 +23,37 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/admins")
-public class AdminController {
+@RequestMapping("/places")
+public class PlaceController {
     
     @Autowired
-    private AdminService service;
+    private PlaceService service;
 
     @GetMapping
-    public ResponseEntity<Page<AdminDTO>> getAdmins(
+    public ResponseEntity<Page<PlaceDTO>> getPlaces(
         @RequestParam(value = "page",         defaultValue = "0") Integer page,
         @RequestParam(value = "linesPerPage", defaultValue = "6") Integer linesPerPage,
         @RequestParam(value = "direction",    defaultValue = "ASC") String direction,
         @RequestParam(value = "orderBy",      defaultValue = "id") String orderBy,
         @RequestParam(value = "name",         defaultValue = "") String name,
-        @RequestParam(value = "email",      defaultValue = "") String email,
-        @RequestParam(value = "phoneNumber",      defaultValue = "") String phoneNumber
+        @RequestParam(value = "address",      defaultValue = "") String address
     ){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
         
-        Page<AdminDTO> list = service.getAdmins(pageRequest, name.trim(), email.trim(), phoneNumber.trim());
+        Page<PlaceDTO> list = service.getPlaces(pageRequest, name.trim(), address.trim());
 
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AdminDTO> getAdminById(@PathVariable Long id) {
-        AdminDTO dto = service.getAdminById(id);
+    public ResponseEntity<PlaceDTO> getPlaceById(@PathVariable Long id) {
+        PlaceDTO dto = service.getPlaceById(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
-	public ResponseEntity<AdminDTO> insert(@RequestBody AdminInsertDTO insertDto){
-		AdminDTO dto = service.insert(insertDto); 
+	public ResponseEntity<PlaceDTO> insert(@RequestBody PlaceInsertDTO insertDto){
+		PlaceDTO dto = service.insert(insertDto); 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
@@ -66,8 +65,8 @@ public class AdminController {
     }
 
     @PutMapping("{id}")
-	public ResponseEntity<AdminDTO> update(@RequestBody AdminUpdateDTO updateDto, @PathVariable Long id){
-		AdminDTO dto = service.update(id, updateDto); 
+	public ResponseEntity<PlaceDTO> update(@RequestBody PlaceUpdateDTO updateDto, @PathVariable Long id){
+		PlaceDTO dto = service.update(id, updateDto); 
 		return ResponseEntity.ok().body(dto);
 	}
 }

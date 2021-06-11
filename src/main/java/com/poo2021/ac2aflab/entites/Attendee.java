@@ -9,10 +9,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.poo2021.ac2aflab.dto.AttendeeInsertDTO;
+
 @Entity
-@Table(name="TB_ATTEND")
-@PrimaryKeyJoinColumn(name="BASEUSER_ID")
-public class Attend extends BaseUser {
+@Table(name="TB_ATTENDEE")
+@PrimaryKeyJoinColumn(name="USER_ID")
+public class Attendee extends BaseUser {
     
     private Double balance;
 
@@ -20,18 +22,23 @@ public class Attend extends BaseUser {
     @JoinColumn(name="TICKET_ID")
     private List<Ticket> tickets = new ArrayList<>();
 
-    public Attend() {
+    public Attendee() {
 
     }
 
-    public Attend(Double balance) {
+    public Attendee(Double balance) {
         this.balance = balance;
     }
 
-    public Attend(Long id, String name, String email, Double balance) {
+    public Attendee(Long id, String name, String email, Double balance) {
         super(id,name,email);
         this.balance = balance;
     }
+
+    public Attendee(AttendeeInsertDTO insertDTO) {
+        super(insertDTO.getName(), insertDTO.getEmail());
+        this.balance = 0.0;
+	}
 
     public Double getBalance() {
         return balance;
@@ -41,5 +48,13 @@ public class Attend extends BaseUser {
         this.balance = balance;
     }
 
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
 
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    
 }

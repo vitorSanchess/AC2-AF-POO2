@@ -1,10 +1,10 @@
 package com.poo2021.ac2aflab.controller;
 
 import java.net.URI;
-import com.poo2021.ac2aflab.dto.AdminDTO;
-import com.poo2021.ac2aflab.dto.AdminInsertDTO;
-import com.poo2021.ac2aflab.dto.AdminUpdateDTO;
-import com.poo2021.ac2aflab.services.AdminService;
+import com.poo2021.ac2aflab.dto.EventDTO;
+import com.poo2021.ac2aflab.dto.EventInsertDTO;
+import com.poo2021.ac2aflab.dto.EventUpdateDTO;
+import com.poo2021.ac2aflab.services.EventService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,38 +23,37 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/admins")
-public class AdminController {
+@RequestMapping("/events")
+public class EventController {
     
     @Autowired
-    private AdminService service;
+    private EventService service;
 
     @GetMapping
-    public ResponseEntity<Page<AdminDTO>> getAdmins(
+    public ResponseEntity<Page<EventDTO>> getEvents(
         @RequestParam(value = "page",         defaultValue = "0") Integer page,
         @RequestParam(value = "linesPerPage", defaultValue = "6") Integer linesPerPage,
         @RequestParam(value = "direction",    defaultValue = "ASC") String direction,
         @RequestParam(value = "orderBy",      defaultValue = "id") String orderBy,
         @RequestParam(value = "name",         defaultValue = "") String name,
-        @RequestParam(value = "email",      defaultValue = "") String email,
-        @RequestParam(value = "phoneNumber",      defaultValue = "") String phoneNumber
+        @RequestParam(value = "description",      defaultValue = "") String description
     ){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
         
-        Page<AdminDTO> list = service.getAdmins(pageRequest, name.trim(), email.trim(), phoneNumber.trim());
+        Page<EventDTO> list = service.getEvents(pageRequest, name.trim(), description.trim());
 
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AdminDTO> getAdminById(@PathVariable Long id) {
-        AdminDTO dto = service.getAdminById(id);
+    public ResponseEntity<EventDTO> getEventById(@PathVariable Long id) {
+        EventDTO dto = service.getEventById(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
-	public ResponseEntity<AdminDTO> insert(@RequestBody AdminInsertDTO insertDto){
-		AdminDTO dto = service.insert(insertDto); 
+	public ResponseEntity<EventDTO> insert(@RequestBody EventInsertDTO insertDto){
+		EventDTO dto = service.insert(insertDto); 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
@@ -66,8 +65,8 @@ public class AdminController {
     }
 
     @PutMapping("{id}")
-	public ResponseEntity<AdminDTO> update(@RequestBody AdminUpdateDTO updateDto, @PathVariable Long id){
-		AdminDTO dto = service.update(id, updateDto); 
+	public ResponseEntity<EventDTO> update(@RequestBody EventUpdateDTO updateDto, @PathVariable Long id){
+		EventDTO dto = service.update(id, updateDto); 
 		return ResponseEntity.ok().body(dto);
 	}
 }
