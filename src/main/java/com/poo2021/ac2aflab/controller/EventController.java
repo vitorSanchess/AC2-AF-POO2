@@ -1,6 +1,7 @@
 package com.poo2021.ac2aflab.controller;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.poo2021.ac2aflab.dto.Event.EventDTO;
@@ -48,11 +49,13 @@ public class EventController {
         @RequestParam(value = "direction",    defaultValue = "ASC") String direction,
         @RequestParam(value = "orderBy",      defaultValue = "id") String orderBy,
         @RequestParam(value = "name",         defaultValue = "") String name,
-        @RequestParam(value = "description",      defaultValue = "") String description
+        @RequestParam(value = "description",      defaultValue = "") String description,
+        @RequestParam(value = "email",      defaultValue = "") String emailContact,
+        @RequestParam(value = "startDate",      defaultValue = "1900-01-01") LocalDate startDate
     ){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
         
-        Page<EventDTO> list = eventService.getEvents(pageRequest, name.trim(), description.trim());
+        Page<EventDTO> list = eventService.getEvents(pageRequest, name.trim(), description.trim(), emailContact.trim(), startDate);
 
         return ResponseEntity.ok().body(list);
     }
