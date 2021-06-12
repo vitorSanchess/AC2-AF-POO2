@@ -134,7 +134,7 @@ public class EventService {
         }
         
         if(entity.getPlaces().contains(place))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cannot duplicate place!");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Place already assinged to this event");
 
         entity.getPlaces().add(place);
 
@@ -205,7 +205,6 @@ public class EventService {
                 entity.setEndTime(updateDTO.getEndTime());
                 entity.setAmountFreeTickets(updateDTO.getAmountFreeTickets());
                 entity.setPriceTicket(updateDTO.getPriceTicket());
-                entity.setPlaces(updateDTO.getPlaces());
 
                 if(!isDateTimeValid(entity))
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Confilicting date time!");
@@ -213,6 +212,24 @@ public class EventService {
                 for(Ticket t : entity.getTickets()){
                     if(t.getType() == TicketType.PAYED)
                         t.setPrice(entity.getPriceTicket());
+                }
+                try {
+                    Place newPlace = placeRepo.findById(updateDTO.getNewPlaceId()).get();
+                    Place oldPlace = placeRepo.findById(updateDTO.getOldPlaceId()).get();
+
+                     if(!entity.getPlaces().contains(oldPlace))
+                         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found to update to a new one");
+                    if(entity.getPlaces().contains(newPlace))
+                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Place already assinged to this event");
+                    for(Place p : entity.getPlaces()) {
+                        if(p.getId() == oldPlace.getId()){
+                            entity.getPlaces().remove(p);
+                            entity.getPlaces().add(newPlace);
+                            break;
+                        }
+                    }
+                }catch(EntityNotFoundException e){
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found");
                 }
 
                 entity = eventRepo.save(entity);
