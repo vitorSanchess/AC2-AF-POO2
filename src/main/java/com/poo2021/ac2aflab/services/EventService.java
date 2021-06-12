@@ -124,6 +124,9 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
         }
 
+        if(entity.getEndDate().isBefore(LocalDate.now()))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Can't insert place on past event");
+
         try{
             place = placeRepo.findById(placeId).get();
         }catch (NoSuchElementException e) {
@@ -145,6 +148,10 @@ public class EventService {
 
 
     public void delete(Long id) {
+        Event event = eventRepo.findById(id).get();
+        if(event.getEndDate().isBefore(LocalDate.now()))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Can't delete a past event");
+
         List<Ticket> tickets = eventRepo.findById(id).get().getTickets();
         for(Ticket t : tickets) {
             if(t.getAttendee() != null)
@@ -183,11 +190,10 @@ public class EventService {
     public EventDTO update(Long id, EventUpdateDTO updateDTO) {
 
         if (updateDTO.getStartDate().compareTo(updateDTO.getEndDate()) > 0) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                    "The end date should be bigger than the start date!");
-        } else if (updateDTO.getStartDate().isBefore(LocalDate.now())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                    "Cannot update past events!");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "The end date should be bigger than the start date!");
+        } 
+        else if (updateDTO.getEndDate().isBefore(LocalDate.now())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cannot update past events!");
         } else{
             try {
                 Event entity = eventRepo.getOne(id);
