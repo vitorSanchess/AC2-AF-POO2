@@ -205,7 +205,6 @@ public class EventService {
                 entity.setEndTime(updateDTO.getEndTime());
                 entity.setAmountFreeTickets(updateDTO.getAmountFreeTickets());
                 entity.setPriceTicket(updateDTO.getPriceTicket());
-                entity.setTickets(updateDTO.getTickets());
                 entity.setPlaces(updateDTO.getPlaces());
 
                 if(!isDateTimeValid(entity))
