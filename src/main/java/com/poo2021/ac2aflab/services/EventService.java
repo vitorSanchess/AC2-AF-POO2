@@ -210,7 +210,13 @@ public class EventService {
                 if(!isDateTimeValid(entity))
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Confilicting date time!");
 
+                for(Ticket t : entity.getTickets()){
+                    if(t.getType() == TicketType.PAYED)
+                        t.setPrice(entity.getPriceTicket());
+                }
+
                 entity = eventRepo.save(entity);
+                ticketRepo.saveAll(entity.getTickets());
                 return new EventDTO(entity);
             } catch (EntityNotFoundException e) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.poo2021.ac2aflab.entites.Place;
-import com.poo2021.ac2aflab.entites.Ticket;
 
 public class EventUpdateDTO {
     
