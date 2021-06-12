@@ -69,7 +69,7 @@ public class TicketService {
         }
     }
 
-    public TicketDTO toDTO(Ticket ticket) { //adicionar tipo de ingresso
+    public TicketDTO toDTO(Ticket ticket) { 
         TicketDTO dto = new TicketDTO();
         dto.setId(ticket.getId());
         dto.setType(ticket.getType());
@@ -84,7 +84,7 @@ public class TicketService {
         List<TicketDTO> listDTO = new ArrayList<>();
 
         for (Ticket a : list) {
-            listDTO.add(toDTO(a)); //adicionar tipo
+            listDTO.add(toDTO(a)); 
         }
         return listDTO;
     }
