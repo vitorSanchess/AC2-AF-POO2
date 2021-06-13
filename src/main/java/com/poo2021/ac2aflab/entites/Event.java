@@ -39,6 +39,9 @@ public class Event {
     private Long amountPayedTickets;
     private Double priceTicket;
 
+    private Long FreeTicketsSelled;
+    private Long PayedTicketsSelled;
+
     
     @JsonIgnore
     @ManyToOne
@@ -64,8 +67,8 @@ public class Event {
     }
 
     public Event(Long id, String name, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime,
-            LocalTime endTime, String emailContact, Long amountFreeTickets, Long amountPayedTickets,
-            Double priceTicket) {
+            LocalTime endTime, String emailContact, Long amountFreeTickets, Long amountPayedTickets, Double priceTicket,
+            Long freeTicketsSelled, Long payedTicketsSelled, Admin admin, List<Ticket> tickets, List<Place> places) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -76,7 +79,7 @@ public class Event {
         this.emailContact = emailContact;
         this.amountFreeTickets = amountFreeTickets;
         this.amountPayedTickets = amountPayedTickets;
-        this.priceTicket = priceTicket;    
+        this.priceTicket = priceTicket;
     }
 
     public Event(EventInsertDTO insertDTO) {
@@ -93,6 +96,18 @@ public class Event {
     this.admin = insertDTO.getAdmin();
     this.tickets = insertDTO.getTickets();
     this.places = insertDTO.getPlaces();
+    }
+
+    public Long getAmountFreeTicketsSelled(Event event, Long amoutFreeTickets) {
+        event.FreeTicketsSelled ++;
+        return event.FreeTicketsSelled;
+
+    }
+
+    public Long getAmountPayedTicketsSelled(Event event, Long amoutPayedTickets) {
+        event.PayedTicketsSelled ++;
+        return event.PayedTicketsSelled;
+
     }
 
     public Long getId() {
@@ -181,6 +196,22 @@ public class Event {
 
     public void setPriceTicket(Double priceTicket) {
         this.priceTicket = priceTicket;
+    }
+
+    public Long getFreeTicketsSelled() {
+        return FreeTicketsSelled;
+    }
+
+    public void setFreeTicketsSelled(Long freeTicketsSelled) {
+        FreeTicketsSelled = freeTicketsSelled;
+    }
+
+    public Long getPayedTicketsSelled() {
+        return PayedTicketsSelled;
+    }
+
+    public void setPayedTicketsSelled(Long payedTicketsSelled) {
+        PayedTicketsSelled = payedTicketsSelled;
     }
 
     public Admin getAdmin() {

@@ -43,7 +43,7 @@ public class EventService {
     private AdminRepository adminRepo;
 
     @Autowired
-    private AttendeeRepository atendeeRepo;
+    private AttendeeRepository attendeeRepo;
 
     @Autowired
     private PlaceRepository placeRepo;
@@ -92,31 +92,9 @@ public class EventService {
         
         if(!isDateTimeValid(entity))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Confilicting date time!");
-
-        if(insertDTO.getAmountFreeTickets() > 0) {
-            for (int i = 0 ; i < insertDTO.getAmountFreeTickets(); i++) {
-                Ticket ticket = new Ticket();
-                ticket.setEvent(entity);
-                ticket.setType(TicketType.FREE);
-                ticket.setDate(Instant.now());
-                ticket.setPrice(0.0);
-                entity.getTickets().add(ticket);
-            }
-        }
-
-        if(insertDTO.getAmountPayedTickets() > 0) {
-            for (int i = 0 ; i < insertDTO.getAmountPayedTickets(); i++) {
-                Ticket payedTicket = new Ticket();
-                payedTicket.setEvent(entity);
-                payedTicket.setType(TicketType.PAYED);
-                payedTicket.setDate(Instant.now());
-                payedTicket.setPrice(entity.getPriceTicket());
-                entity.getTickets().add(payedTicket);
-            }
-        }
-        
+        entity.setFreeTicketsSelled(0l);
+        entity.setPayedTicketsSelled(0l);
         entity = eventRepo.save(entity);
-        ticketRepo.saveAll(entity.getTickets());
         placeRepo.saveAll(entity.getPlaces());
         return new EventDTO(entity);
     }
@@ -162,33 +140,50 @@ public class EventService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
         }
         try{
-            attendee = atendeeRepo.findById(sellDTO.getAttendeeId()).get();
+            attendee = attendeeRepo.findById(sellDTO.getAttendeeId()).get();
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Attendee not found");
         }
-        Ticket ticket = new Ticket();
+
         if(entity.getEndDate().isBefore(LocalDate.now()))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cant buy tickets from past events!");
-        if(entity.getPriceTicket() > attendee.getBalance())
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Balance insuficient to buy this ticket!");
+
+        if(entity.getPriceTicket() > attendee.getBalance() && sellDTO.getType() == TicketType.PAYED)
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Balance insufficient to buy this ticket!");
         
-        for(Ticket t : entity.getTickets()) {
-            if(t.getAttendee() == null && t.getType() == sellDTO.getType()){
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
-                ticket = ticketRepo.findById(t.getId()).get();
+        Ticket ticket = new Ticket();
+        if(sellDTO.getType() == TicketType.FREE) {
+            Long selledTickets = entity.getAmountFreeTicketsSelled(entity, entity.getAmountFreeTickets());
+            if(entity.getAmountFreeTickets() < selledTickets)
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Event sold out on free tickets!");
+            else {
                 ticket.setAttendee(attendee);
+                ticket.setDate(Instant.now());
+                ticket.setEvent(entity);
+                ticket.setPrice(0.0);
+                ticket.setType(sellDTO.getType());
                 attendee.getTickets().add(ticket);
-                attendee.setBalance(attendee.getBalance() - ticket.getPrice());
-                break;
+                ticketRepo.save(ticket);
+            }
+        } else if(sellDTO.getType() == TicketType.PAYED) {
+            Long selledTickets = entity.getAmountPayedTicketsSelled(entity, entity.getAmountPayedTickets());
+            if(entity.getAmountPayedTickets() < selledTickets)
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Event sold out on payed tickets!");
+            else {
+                ticket.setAttendee(attendee);
+                ticket.setDate(Instant.now());
+                ticket.setEvent(entity);
+                ticket.setPrice(0.0);
+                ticket.setType(sellDTO.getType());
+                attendee.getTickets().add(ticket);
+                attendee.setBalance(attendee.getBalance() - entity.getPriceTicket());
+                ticketRepo.save(ticket);
             }
         }
-        System.out.println(ticket.getType());
-        if(ticket.getAttendee() == null) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Event sold out on this type of ticket!");
-        }
+        
         entity = eventRepo.save(entity);
-        ticketRepo.save(ticket);
-        atendeeRepo.save(attendee);
+        attendeeRepo.save(attendee);
+        
         return new TicketDTO(ticket);
     }
 
@@ -256,7 +251,7 @@ public class EventService {
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Confilicting date time!");
 
                 for(Ticket t : entity.getTickets()){
-                    if(t.getType() == TicketType.PAYED)
+                    if(t.getType() == TicketType.PAYED && t.getAttendee() == null)
                         t.setPrice(entity.getPriceTicket());
                 }
                 try {

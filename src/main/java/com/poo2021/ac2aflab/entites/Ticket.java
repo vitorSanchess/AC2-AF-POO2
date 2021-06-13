@@ -41,8 +41,6 @@ public class Ticket {
 
     }
 
-    
-
     public Ticket(Long id, TicketType type, Instant date, Double price, Event event, Attendee attendee) {
         this.id = id;
         this.type = type;

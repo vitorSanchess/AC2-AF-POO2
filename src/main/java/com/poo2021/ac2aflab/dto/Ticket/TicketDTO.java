@@ -34,6 +34,7 @@ public class TicketDTO {
     public TicketDTO(Ticket ticket) {
         setId(ticket.getId());
         setDate(ticket.getDate());
+        setType(ticket.getType());
         setPrice(ticket.getPrice());
         setEvent(ticket.getEvent());
         setAttendee(ticket.getAttendee());
