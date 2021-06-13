@@ -173,7 +173,7 @@ public class EventService {
                 ticket.setAttendee(attendee);
                 ticket.setDate(Instant.now());
                 ticket.setEvent(entity);
-                ticket.setPrice(0.0);
+                ticket.setPrice(entity.getPriceTicket());
                 ticket.setType(sellDTO.getType());
                 attendee.getTickets().add(ticket);
                 attendee.setBalance(attendee.getBalance() - entity.getPriceTicket());
@@ -227,6 +227,8 @@ public class EventService {
         event.getPlaces().remove(place);
         eventRepo.save(event);
     }
+
+
 
     public EventDTO update(Long id, EventUpdateDTO updateDTO) {
 
