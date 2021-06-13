@@ -3,7 +3,7 @@ package com.poo2021.ac2aflab.controller;
 import java.net.URI;
 
 import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
-import com.poo2021.ac2aflab.dto.Ticket.TicketInsertDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketSellDTO;
 import com.poo2021.ac2aflab.dto.Ticket.TicketUpdateDTO;
 import com.poo2021.ac2aflab.services.TicketService;
 
@@ -51,12 +51,12 @@ public class TicketController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @PostMapping
-	public ResponseEntity<TicketDTO> insert(@RequestBody TicketInsertDTO insertDto){
-		TicketDTO dto = service.insert(insertDto); 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
-		return ResponseEntity.created(uri).body(dto);
-	}
+    // @PostMapping
+	// public ResponseEntity<TicketDTO> insert(@RequestBody TicketSellDTO insertDto){
+	// 	TicketDTO dto = service.insert(insertDto); 
+	// 	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+	// 	return ResponseEntity.created(uri).body(dto);
+	// }
 
     @DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){

@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.poo2021.ac2aflab.dto.Ticket.TicketInsertDTO;
 
 @Entity
 @Table(name="TB_TICKET")
@@ -52,13 +51,6 @@ public class Ticket {
         this.event = event;
         this.attendee = attendee;
     }
-
-    public Ticket(TicketInsertDTO insertDTO) {
-        //this.type = insertDTO.getType();
-        this.date = insertDTO.getDate();
-        this.price = insertDTO.getPrice();
-    }
-
 
     public Long getId() {
         return id;

@@ -9,6 +9,7 @@ import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
 import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
 import com.poo2021.ac2aflab.dto.Place.PlaceDTO;
 import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketSellDTO;
 import com.poo2021.ac2aflab.services.EventService;
 import com.poo2021.ac2aflab.services.PlaceService;
 import com.poo2021.ac2aflab.services.TicketService;
@@ -73,7 +74,7 @@ public class EventController {
     }
 
     @PostMapping
-	public ResponseEntity<EventDTO> insert(@RequestBody EventInsertDTO insertDto){
+	public ResponseEntity<EventDTO> insert(@RequestBody EventInsertDTO insertDto) {
 		EventDTO dto = eventService.insert(insertDto); 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
@@ -84,6 +85,13 @@ public class EventController {
         EventDTO dto = eventService.insertPlace(eventId, placeId);
         PlaceDTO place = placeService.getPlaceById(placeId);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{eventId}/places/{placeId}").buildAndExpand(dto.getId(), place.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PostMapping("{id}/tickets")
+    public ResponseEntity<TicketDTO> sellTicket(@RequestBody TicketSellDTO sellDTO ,@PathVariable Long id) {
+        TicketDTO dto = eventService.sellTicket(sellDTO, id);
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}/tickets").buildAndExpand(dto.getEvent().getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
 

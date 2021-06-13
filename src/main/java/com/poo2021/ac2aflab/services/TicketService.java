@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
-import com.poo2021.ac2aflab.dto.Ticket.TicketInsertDTO;
 import com.poo2021.ac2aflab.dto.Ticket.TicketUpdateDTO;
 import com.poo2021.ac2aflab.entites.Ticket;
 import com.poo2021.ac2aflab.repositories.TicketRepository;
@@ -41,12 +40,6 @@ public class TicketService {
         return repo.findAll();
     }
 
-    public TicketDTO insert(TicketInsertDTO insertDTO) {
-        Ticket entity = new Ticket(insertDTO);
-        entity = repo.save(entity);
-        return new TicketDTO(entity);
-    }
-
     public void delete(Long id) {
         try {
             repo.deleteById(id);
@@ -69,7 +62,7 @@ public class TicketService {
         }
     }
 
-    public TicketDTO toDTO(Ticket ticket) { 
+    public TicketDTO toDTO(Ticket ticket) { //adicionar tipo de ingresso
         TicketDTO dto = new TicketDTO();
         dto.setId(ticket.getId());
         dto.setType(ticket.getType());

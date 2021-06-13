@@ -12,11 +12,15 @@ import javax.persistence.EntityNotFoundException;
 import com.poo2021.ac2aflab.dto.Event.EventDTO;
 import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
 import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketSellDTO;
+import com.poo2021.ac2aflab.entites.Attendee;
 import com.poo2021.ac2aflab.entites.Event;
 import com.poo2021.ac2aflab.entites.Place;
 import com.poo2021.ac2aflab.entites.Ticket;
 import com.poo2021.ac2aflab.entites.Ticket.TicketType;
 import com.poo2021.ac2aflab.repositories.AdminRepository;
+import com.poo2021.ac2aflab.repositories.AttendeeRepository;
 import com.poo2021.ac2aflab.repositories.EventRepository;
 import com.poo2021.ac2aflab.repositories.PlaceRepository;
 import com.poo2021.ac2aflab.repositories.TicketRepository;
@@ -37,6 +41,9 @@ public class EventService {
 
     @Autowired
     private AdminRepository adminRepo;
+
+    @Autowired
+    private AttendeeRepository atendeeRepo;
 
     @Autowired
     private PlaceRepository placeRepo;
@@ -144,6 +151,45 @@ public class EventService {
         entity = eventRepo.save(entity);
         placeRepo.saveAll(entity.getPlaces());
         return new EventDTO(entity);
+    }
+
+    public TicketDTO sellTicket(TicketSellDTO sellDTO, Long eventId) {
+        Event entity;
+        Attendee attendee;
+        try{
+            entity = eventRepo.findById(eventId).get();
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
+        }
+        try{
+            attendee = atendeeRepo.findById(sellDTO.getAttendeeId()).get();
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Attendee not found");
+        }
+        Ticket ticket = new Ticket();
+        if(entity.getEndDate().isBefore(LocalDate.now()))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cant buy tickets from past events!");
+        if(entity.getPriceTicket() > attendee.getBalance())
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Balance insuficient to buy this ticket!");
+        
+        for(Ticket t : entity.getTickets()) {
+            if(t.getAttendee() == null && t.getType() == sellDTO.getType()){
+                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA");
+                ticket = ticketRepo.findById(t.getId()).get();
+                ticket.setAttendee(attendee);
+                attendee.getTickets().add(ticket);
+                attendee.setBalance(attendee.getBalance() - ticket.getPrice());
+                break;
+            }
+        }
+        System.out.println(ticket.getType());
+        if(ticket.getAttendee() == null) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Event sold out on this type of ticket!");
+        }
+        entity = eventRepo.save(entity);
+        ticketRepo.save(ticket);
+        atendeeRepo.save(attendee);
+        return new TicketDTO(ticket);
     }
 
 
