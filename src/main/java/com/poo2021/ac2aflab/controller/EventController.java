@@ -9,6 +9,7 @@ import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
 import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
 import com.poo2021.ac2aflab.dto.Place.PlaceDTO;
 import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketRefundDTO;
 import com.poo2021.ac2aflab.dto.Ticket.TicketSellDTO;
 import com.poo2021.ac2aflab.services.EventService;
 import com.poo2021.ac2aflab.services.PlaceService;
@@ -104,6 +105,12 @@ public class EventController {
     @DeleteMapping("{eventId}/places/{placeId}")
     public ResponseEntity<Void> deletePlace(@PathVariable Long eventId, @PathVariable Long placeId) {
         eventService.deletePlace(eventId, placeId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("{id}/tickets")
+    public ResponseEntity<Void> refundTicket(@RequestBody TicketRefundDTO refundDTO, @PathVariable Long id) {
+        eventService.refundTicket(refundDTO, id);
         return ResponseEntity.noContent().build();
     }
 

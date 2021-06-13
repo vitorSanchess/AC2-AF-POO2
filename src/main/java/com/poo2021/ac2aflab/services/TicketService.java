@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
-import com.poo2021.ac2aflab.dto.Ticket.TicketUpdateDTO;
 import com.poo2021.ac2aflab.entites.Ticket;
 import com.poo2021.ac2aflab.repositories.TicketRepository;
 
@@ -44,20 +43,6 @@ public class TicketService {
         try {
             repo.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found");
-        }
-    }
-
-    public TicketDTO update(Long id, TicketUpdateDTO updateDTO) {
-        try {
-            Ticket entity = repo.getOne(id);
-
-            entity.setAttendee(updateDTO.getAttendee());
-            entity.setPrice(updateDTO.getPrice());
-
-            entity = repo.save(entity);
-            return new TicketDTO(entity);
-        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found");
         }
     }

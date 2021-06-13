@@ -4,7 +4,6 @@ import java.net.URI;
 
 import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
 import com.poo2021.ac2aflab.dto.Ticket.TicketSellDTO;
-import com.poo2021.ac2aflab.dto.Ticket.TicketUpdateDTO;
 import com.poo2021.ac2aflab.services.TicketService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +63,9 @@ public class TicketController {
 		return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("{id}")
-	public ResponseEntity<TicketDTO> update(@RequestBody TicketUpdateDTO updateDto, @PathVariable Long id){
-		TicketDTO dto = service.update(id, updateDto); 
-		return ResponseEntity.ok().body(dto);
-	}
+    // @PutMapping("{id}")
+	// public ResponseEntity<TicketDTO> update(@RequestBody TicketUpdateDTO updateDto, @PathVariable Long id){
+	// 	TicketDTO dto = service.update(id, updateDto); 
+	// 	return ResponseEntity.ok().body(dto);
+	// }
 }

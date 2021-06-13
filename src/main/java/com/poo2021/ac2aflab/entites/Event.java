@@ -98,16 +98,24 @@ public class Event {
     this.places = insertDTO.getPlaces();
     }
 
-    public Long getAmountFreeTicketsSelled(Event event, Long amoutFreeTickets) {
-        event.FreeTicketsSelled ++;
-        return event.FreeTicketsSelled;
+    public Long getAmountFreeTicketsSelled(Long amount) {
+        FreeTicketsSelled = FreeTicketsSelled + amount;
+        return FreeTicketsSelled;
 
     }
 
-    public Long getAmountPayedTicketsSelled(Event event, Long amoutPayedTickets) {
-        event.PayedTicketsSelled ++;
-        return event.PayedTicketsSelled;
+    public Long getAmountPayedTicketsSelled(Long amount) {
+        PayedTicketsSelled = PayedTicketsSelled + amount;
+        return PayedTicketsSelled;
+    }
 
+    public Long getAmountFreeTicketsSelled() {
+        return FreeTicketsSelled;
+
+    }
+
+    public Long getAmountPayedTicketsSelled() {
+        return PayedTicketsSelled;
     }
 
     public Long getId() {

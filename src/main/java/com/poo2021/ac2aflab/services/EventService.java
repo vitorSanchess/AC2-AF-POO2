@@ -13,6 +13,7 @@ import com.poo2021.ac2aflab.dto.Event.EventDTO;
 import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
 import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
 import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketRefundDTO;
 import com.poo2021.ac2aflab.dto.Ticket.TicketSellDTO;
 import com.poo2021.ac2aflab.entites.Attendee;
 import com.poo2021.ac2aflab.entites.Event;
@@ -153,7 +154,7 @@ public class EventService {
         
         Ticket ticket = new Ticket();
         if(sellDTO.getType() == TicketType.FREE) {
-            Long selledTickets = entity.getAmountFreeTicketsSelled(entity, entity.getAmountFreeTickets());
+            Long selledTickets = entity.getAmountFreeTicketsSelled(1l);
             if(entity.getAmountFreeTickets() < selledTickets)
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Event sold out on free tickets!");
             else {
@@ -166,7 +167,7 @@ public class EventService {
                 ticketRepo.save(ticket);
             }
         } else if(sellDTO.getType() == TicketType.PAYED) {
-            Long selledTickets = entity.getAmountPayedTicketsSelled(entity, entity.getAmountPayedTickets());
+            Long selledTickets = entity.getAmountPayedTicketsSelled(1l);
             if(entity.getAmountPayedTickets() < selledTickets)
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Event sold out on payed tickets!");
             else {
@@ -228,7 +229,40 @@ public class EventService {
         eventRepo.save(event);
     }
 
+    public void refundTicket(TicketRefundDTO refundDTO, Long eventId) {
+        Event entity;
+        Attendee attendee;
+        Ticket ticket;
+        try{
+            entity = eventRepo.findById(eventId).get();
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
+        }
+        try{
+            attendee = attendeeRepo.findById(refundDTO.getAttendeeId()).get();
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Attendee not found");
+        }
+        try{
+            ticket = ticketRepo.findById(refundDTO.getTicketId()).get();
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found");
+        }
 
+        if(entity.getStartDate().isBefore(LocalDate.now()))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cant refund tickets from past events!");
+        if(!attendee.getTickets().contains(ticket))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ticket not assigned to attendee!");
+        attendee.getTickets().remove(ticket);
+        attendee.setBalance(attendee.getBalance() + ticket.getPrice());
+        if(ticket.getType() == TicketType.FREE)
+            entity.setFreeTicketsSelled(entity.getAmountFreeTicketsSelled()-1);
+        else
+            entity.setFreeTicketsSelled(entity.getAmountFreeTicketsSelled()-1);
+        eventRepo.save(entity);
+        attendeeRepo.save(attendee);
+        ticketRepo.delete(ticket);
+    }
 
     public EventDTO update(Long id, EventUpdateDTO updateDTO) {
 
