@@ -1,7 +1,5 @@
 package com.poo2021.ac2aflab.dto.Ticket;
 
-import com.poo2021.ac2aflab.entites.Ticket.TicketType;
-
 public class TicketRefundDTO {
 
     private Long attendeeId;

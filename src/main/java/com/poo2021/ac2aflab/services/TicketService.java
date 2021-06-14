@@ -2,21 +2,15 @@ package com.poo2021.ac2aflab.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
 
 import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
 import com.poo2021.ac2aflab.entites.Ticket;
 import com.poo2021.ac2aflab.repositories.TicketRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class TicketService {
@@ -29,25 +23,7 @@ public class TicketService {
         return list.map( a -> new TicketDTO(a));
     }
 
-    public TicketDTO getTicketById(Long id) {
-        Optional<Ticket> op = repo.findById(id);
-        Ticket Ticket = op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found"));
-        return new TicketDTO(Ticket);
-    }
-
-    public List<Ticket> getAllTickets() {
-        return repo.findAll();
-    }
-
-    public void delete(Long id) {
-        try {
-            repo.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found");
-        }
-    }
-
-    public TicketDTO toDTO(Ticket ticket) { //adicionar tipo de ingresso
+    public TicketDTO toDTO(Ticket ticket) {
         TicketDTO dto = new TicketDTO();
         dto.setId(ticket.getId());
         dto.setType(ticket.getType());
