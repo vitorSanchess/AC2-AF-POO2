@@ -1,9 +1,16 @@
 package com.poo2021.ac2aflab.controller;
 
 import java.net.URI;
+<<<<<<< HEAD
 import com.poo2021.ac2aflab.dto.PlaceDTO;
 import com.poo2021.ac2aflab.dto.PlaceInsertDTO;
 import com.poo2021.ac2aflab.dto.PlaceUpdateDTO;
+=======
+
+import com.poo2021.ac2aflab.dto.Place.PlaceDTO;
+import com.poo2021.ac2aflab.dto.Place.PlaceInsertDTO;
+import com.poo2021.ac2aflab.dto.Place.PlaceUpdateDTO;
+>>>>>>> AF
 import com.poo2021.ac2aflab.services.PlaceService;
 
 import org.springframework.beans.factory.annotation.Autowired;

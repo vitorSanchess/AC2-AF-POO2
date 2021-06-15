@@ -18,7 +18,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+<<<<<<< HEAD
 import com.poo2021.ac2aflab.dto.EventInsertDTO;
+=======
+import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
+>>>>>>> AF
 
 @Entity
 @Table(name="TB_EVENT")
@@ -39,12 +43,19 @@ public class Event {
     private Long amountPayedTickets;
     private Double priceTicket;
 
+<<<<<<< HEAD
+=======
+    private Long FreeTicketsSelled;
+    private Long PayedTicketsSelled;
+
+>>>>>>> AF
     
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="ADMIN_BASEUSER_ID")
     private Admin admin;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name="TICKET_ID")
     private List<Ticket> tickets = new ArrayList<>();
@@ -63,8 +74,8 @@ public class Event {
     }
 
     public Event(Long id, String name, String description, LocalDate startDate, LocalDate endDate, LocalTime startTime,
-            LocalTime endTime, String emailContact, Long amountFreeTickets, Long amountPayedTickets,
-            Double priceTicket) {
+            LocalTime endTime, String emailContact, Long amountFreeTickets, Long amountPayedTickets, Double priceTicket,
+            Long freeTicketsSelled, Long payedTicketsSelled, Admin admin, List<Ticket> tickets, List<Place> places) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -92,6 +103,42 @@ public class Event {
     this.admin = insertDTO.getAdmin();
     this.tickets = insertDTO.getTickets();
     this.places = insertDTO.getPlaces();
+    }
+
+    public Event(EventInsertDTO insertDTO) {
+    this.name = insertDTO.getName();
+    this.description = insertDTO.getDescription();
+    this.startDate = insertDTO.getStartDate();
+    this.endDate = insertDTO.getEndDate();
+    this.startTime = insertDTO.getStartTime();
+    this.endTime = insertDTO.getEndTime();
+    this.emailContact = insertDTO.getEmailContact();
+    this.amountFreeTickets = insertDTO.getAmountFreeTickets();
+    this.amountPayedTickets = insertDTO.getAmountPayedTickets();
+    this.priceTicket = insertDTO.getPriceTicket();
+    this.admin = insertDTO.getAdmin();
+    this.tickets = insertDTO.getTickets();
+    this.places = insertDTO.getPlaces();
+    }
+
+    public Long getAmountFreeTicketsSelled(Long amount) {
+        FreeTicketsSelled = FreeTicketsSelled + amount;
+        return FreeTicketsSelled;
+
+    }
+
+    public Long getAmountPayedTicketsSelled(Long amount) {
+        PayedTicketsSelled = PayedTicketsSelled + amount;
+        return PayedTicketsSelled;
+    }
+
+    public Long getAmountFreeTicketsSelled() {
+        return FreeTicketsSelled;
+
+    }
+
+    public Long getAmountPayedTicketsSelled() {
+        return PayedTicketsSelled;
     }
 
     public Long getId() {
@@ -182,6 +229,25 @@ public class Event {
         this.priceTicket = priceTicket;
     }
 
+<<<<<<< HEAD
+=======
+    public Long getFreeTicketsSelled() {
+        return FreeTicketsSelled;
+    }
+
+    public void setFreeTicketsSelled(Long freeTicketsSelled) {
+        FreeTicketsSelled = freeTicketsSelled;
+    }
+
+    public Long getPayedTicketsSelled() {
+        return PayedTicketsSelled;
+    }
+
+    public void setPayedTicketsSelled(Long payedTicketsSelled) {
+        PayedTicketsSelled = payedTicketsSelled;
+    }
+
+>>>>>>> AF
     public Admin getAdmin() {
         return admin;
     }

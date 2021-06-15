@@ -4,9 +4,15 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+<<<<<<< HEAD
 import com.poo2021.ac2aflab.dto.AttendeeDTO;
 import com.poo2021.ac2aflab.dto.AttendeeInsertDTO;
 import com.poo2021.ac2aflab.dto.AttendeeUpdateDTO;
+=======
+import com.poo2021.ac2aflab.dto.Attendee.AttendeeDTO;
+import com.poo2021.ac2aflab.dto.Attendee.AttendeeInsertDTO;
+import com.poo2021.ac2aflab.dto.Attendee.AttendeeUpdateDTO;
+>>>>>>> AF
 import com.poo2021.ac2aflab.entites.Attendee;
 import com.poo2021.ac2aflab.repositories.AttendeeRepository;
 
@@ -56,7 +62,11 @@ public class AttendeeService {
             entity.setName(updateDTO.getName());
             entity.setBalance(updateDTO.getBalance());
             entity.setTickets(updateDTO.getTickets());
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> AF
             entity = repo.save(entity);
             return new AttendeeDTO(entity);
         } catch (EntityNotFoundException e) {

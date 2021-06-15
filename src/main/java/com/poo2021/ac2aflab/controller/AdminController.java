@@ -1,9 +1,10 @@
 package com.poo2021.ac2aflab.controller;
 
 import java.net.URI;
-import com.poo2021.ac2aflab.dto.AdminDTO;
-import com.poo2021.ac2aflab.dto.AdminInsertDTO;
-import com.poo2021.ac2aflab.dto.AdminUpdateDTO;
+
+import com.poo2021.ac2aflab.dto.Admin.AdminDTO;
+import com.poo2021.ac2aflab.dto.Admin.AdminInsertDTO;
+import com.poo2021.ac2aflab.dto.Admin.AdminUpdateDTO;
 import com.poo2021.ac2aflab.services.AdminService;
 
 import org.springframework.beans.factory.annotation.Autowired;

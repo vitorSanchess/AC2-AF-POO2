@@ -1,56 +1,48 @@
-package com.poo2021.ac2aflab.entites;
+package com.poo2021.ac2aflab.dto.Ticket;
 
 import java.time.Instant;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.poo2021.ac2aflab.entites.Attendee;
+import com.poo2021.ac2aflab.entites.Event;
+import com.poo2021.ac2aflab.entites.Ticket;
+import com.poo2021.ac2aflab.entites.Ticket.TicketType;
 
-@Entity
-@Table(name="TB_TICKET")
-public class Ticket {
+public class TicketDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    public enum TicketType{
-        FREE, PAYED
-    }
     private TicketType type;
     private Instant date;
     private Double price;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name="EVENT_ID")
     private Event event;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name="ATTEND_BASEUSER_ID")
     private Attendee attendee;
-<<<<<<< HEAD
-=======
 
-    public Ticket() {
->>>>>>> AF
+    public TicketDTO() {
 
     }
 
-    public Ticket(Long id, TicketType type, Instant date, Double price, Event event, Attendee attendee) {
-        this.id = id;
-        this.type = type;
-        this.date = date;
-        this.price = price;
-        this.event = event;
-        this.attendee = attendee;
+    public TicketDTO(Long id, TicketType type) {
+        setId(id);
+        setType(type);
+    }
+
+    public TicketDTO(Ticket ticket) {
+        setId(ticket.getId());
+        setDate(ticket.getDate());
+        setType(ticket.getType());
+        setPrice(ticket.getPrice());
+        setEvent(ticket.getEvent());
+        setAttendee(ticket.getAttendee());
+    }
+
+    public TicketDTO(String name) { //adicionar tipo
+        //setType(type);
+        attendee.setName(name);
     }
 
     public Long getId() {
@@ -101,4 +93,5 @@ public class Ticket {
         this.attendee = attendee;
     }
 
+    
 }

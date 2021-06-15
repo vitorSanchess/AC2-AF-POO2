@@ -1,9 +1,16 @@
 package com.poo2021.ac2aflab.controller;
 
 import java.net.URI;
+<<<<<<< HEAD
 import com.poo2021.ac2aflab.dto.AttendeeDTO;
 import com.poo2021.ac2aflab.dto.AttendeeInsertDTO;
 import com.poo2021.ac2aflab.dto.AttendeeUpdateDTO;
+=======
+
+import com.poo2021.ac2aflab.dto.Attendee.AttendeeDTO;
+import com.poo2021.ac2aflab.dto.Attendee.AttendeeInsertDTO;
+import com.poo2021.ac2aflab.dto.Attendee.AttendeeUpdateDTO;
+>>>>>>> AF
 import com.poo2021.ac2aflab.services.AttendeeService;
 
 import org.springframework.beans.factory.annotation.Autowired;

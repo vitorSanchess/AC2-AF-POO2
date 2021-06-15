@@ -1,10 +1,26 @@
 package com.poo2021.ac2aflab.controller;
 
 import java.net.URI;
+<<<<<<< HEAD
 import com.poo2021.ac2aflab.dto.EventDTO;
 import com.poo2021.ac2aflab.dto.EventInsertDTO;
 import com.poo2021.ac2aflab.dto.EventUpdateDTO;
 import com.poo2021.ac2aflab.services.EventService;
+=======
+import java.time.LocalDate;
+import java.util.List;
+
+import com.poo2021.ac2aflab.dto.Event.EventDTO;
+import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
+import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
+import com.poo2021.ac2aflab.dto.Place.PlaceDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketRefundDTO;
+import com.poo2021.ac2aflab.dto.Ticket.TicketSellDTO;
+import com.poo2021.ac2aflab.services.EventService;
+import com.poo2021.ac2aflab.services.PlaceService;
+import com.poo2021.ac2aflab.services.TicketService;
+>>>>>>> AF
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +43,17 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class EventController {
     
     @Autowired
+<<<<<<< HEAD
     private EventService service;
+=======
+    private EventService eventService;
+
+    @Autowired 
+    private TicketService ticketService;
+
+    @Autowired
+    private PlaceService placeService;
+>>>>>>> AF
 
     @GetMapping
     public ResponseEntity<Page<EventDTO>> getEvents(
@@ -36,17 +62,28 @@ public class EventController {
         @RequestParam(value = "direction",    defaultValue = "ASC") String direction,
         @RequestParam(value = "orderBy",      defaultValue = "id") String orderBy,
         @RequestParam(value = "name",         defaultValue = "") String name,
+<<<<<<< HEAD
         @RequestParam(value = "description",      defaultValue = "") String description
     ){
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
         
         Page<EventDTO> list = service.getEvents(pageRequest, name.trim(), description.trim());
+=======
+        @RequestParam(value = "description",      defaultValue = "") String description,
+        @RequestParam(value = "email",      defaultValue = "") String emailContact,
+        @RequestParam(value = "startDate",      defaultValue = "1900-01-01") LocalDate startDate
+    ){
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
+        
+        Page<EventDTO> list = eventService.getEvents(pageRequest, name.trim(), description.trim(), emailContact.trim(), startDate);
+>>>>>>> AF
 
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<EventDTO> getEventById(@PathVariable Long id) {
+<<<<<<< HEAD
         EventDTO dto = service.getEventById(id);
         return ResponseEntity.ok().body(dto);
     }
@@ -54,10 +91,26 @@ public class EventController {
     @PostMapping
 	public ResponseEntity<EventDTO> insert(@RequestBody EventInsertDTO insertDto){
 		EventDTO dto = service.insert(insertDto); 
+=======
+        EventDTO dto = eventService.getEventById(id);
+        return ResponseEntity.ok().body(dto);
+    }
+    
+    @GetMapping("{id}/tickets")
+    public List<TicketDTO> getTicketsEvent(@PathVariable Long id) {
+        EventDTO dto = eventService.getEventById(id);
+        return ticketService.toDTOList(dto.getTickets());
+    }
+
+    @PostMapping
+	public ResponseEntity<EventDTO> insert(@RequestBody EventInsertDTO insertDto) {
+		EventDTO dto = eventService.insert(insertDto); 
+>>>>>>> AF
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 
+<<<<<<< HEAD
     @DeleteMapping("{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		service.delete(id); 
@@ -69,4 +122,45 @@ public class EventController {
 		EventDTO dto = service.update(id, updateDto); 
 		return ResponseEntity.ok().body(dto);
 	}
+=======
+    @PostMapping("{eventId}/places/{placeId}")
+    public ResponseEntity<EventDTO> insertPlace(@PathVariable Long eventId, @PathVariable Long placeId) {
+        EventDTO dto = eventService.insertPlace(eventId, placeId);
+        PlaceDTO place = placeService.getPlaceById(placeId);
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{eventId}/places/{placeId}").buildAndExpand(dto.getId(), place.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PostMapping("{id}/tickets")
+    public ResponseEntity<TicketDTO> sellTicket(@RequestBody TicketSellDTO sellDTO ,@PathVariable Long id) {
+        TicketDTO dto = eventService.sellTicket(sellDTO, id);
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}/tickets").buildAndExpand(dto.getEvent().getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
+    }
+
+    @DeleteMapping("{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		eventService.delete(id); 
+		return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("{eventId}/places/{placeId}")
+    public ResponseEntity<Void> deletePlace(@PathVariable Long eventId, @PathVariable Long placeId) {
+        eventService.deletePlace(eventId, placeId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("{id}/tickets")
+    public ResponseEntity<Void> refundTicket(@RequestBody TicketRefundDTO refundDTO, @PathVariable Long id) {
+        eventService.refundTicket(refundDTO, id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("{id}")
+	public ResponseEntity<EventDTO> update(@RequestBody EventUpdateDTO updateDto, @PathVariable Long id){
+		EventDTO dto = eventService.update(id, updateDto); 
+		return ResponseEntity.ok().body(dto);
+	}
+
+>>>>>>> AF
 }
