@@ -52,7 +52,8 @@ public class EventService {
     @Autowired
     private TicketRepository ticketRepo;
 
-    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String emailContact, LocalDate startDate) {
+    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String emailContact, String date) {
+        LocalDate startDate = LocalDate.parse(date);
         Page<Event> list = eventRepo.find(pageRequest, name, description, emailContact, startDate);
         return list.map( a -> new EventDTO(a));
     }
