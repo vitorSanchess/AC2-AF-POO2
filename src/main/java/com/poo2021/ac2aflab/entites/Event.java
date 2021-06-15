@@ -18,11 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-<<<<<<< HEAD
-import com.poo2021.ac2aflab.dto.EventInsertDTO;
-=======
 import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
->>>>>>> AF
 
 @Entity
 @Table(name="TB_EVENT")
@@ -43,12 +39,9 @@ public class Event {
     private Long amountPayedTickets;
     private Double priceTicket;
 
-<<<<<<< HEAD
-=======
     private Long FreeTicketsSelled;
     private Long PayedTicketsSelled;
 
->>>>>>> AF
     
     @JsonIgnore
     @ManyToOne
@@ -87,22 +80,6 @@ public class Event {
         this.amountFreeTickets = amountFreeTickets;
         this.amountPayedTickets = amountPayedTickets;
         this.priceTicket = priceTicket;    
-    }
-
-    public Event(EventInsertDTO insertDTO) {
-    this.name = insertDTO.getName();
-    this.description = insertDTO.getDescription();
-    this.startDate = insertDTO.getStartDate();
-    this.endDate = insertDTO.getEndDate();
-    this.startTime = insertDTO.getStartTime();
-    this.endTime = insertDTO.getEndTime();
-    this.emailContact = insertDTO.getEmailContact();
-    this.amountFreeTickets = insertDTO.getAmountFreeTickets();
-    this.amountPayedTickets = insertDTO.getAmountPayedTickets();
-    this.priceTicket = insertDTO.getPriceTicket();
-    this.admin = insertDTO.getAdmin();
-    this.tickets = insertDTO.getTickets();
-    this.places = insertDTO.getPlaces();
     }
 
     public Event(EventInsertDTO insertDTO) {
@@ -229,8 +206,6 @@ public class Event {
         this.priceTicket = priceTicket;
     }
 
-<<<<<<< HEAD
-=======
     public Long getFreeTicketsSelled() {
         return FreeTicketsSelled;
     }
@@ -247,7 +222,6 @@ public class Event {
         PayedTicketsSelled = payedTicketsSelled;
     }
 
->>>>>>> AF
     public Admin getAdmin() {
         return admin;
     }

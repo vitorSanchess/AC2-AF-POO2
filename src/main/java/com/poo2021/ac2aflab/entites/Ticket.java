@@ -36,11 +36,8 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name="ATTEND_BASEUSER_ID")
     private Attendee attendee;
-<<<<<<< HEAD
-=======
 
     public Ticket() {
->>>>>>> AF
 
     }
 

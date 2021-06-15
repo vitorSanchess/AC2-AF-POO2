@@ -1,31 +1,14 @@
 package com.poo2021.ac2aflab.services;
 
-<<<<<<< HEAD
-import java.time.LocalDate;
-import java.time.LocalTime;
-=======
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
->>>>>>> AF
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-<<<<<<< HEAD
-import com.poo2021.ac2aflab.dto.EventDTO;
-import com.poo2021.ac2aflab.dto.EventInsertDTO;
-import com.poo2021.ac2aflab.dto.EventUpdateDTO;
-import com.poo2021.ac2aflab.entites.Event;
-import com.poo2021.ac2aflab.entites.Place;
-import com.poo2021.ac2aflab.entites.Admin;
-import com.poo2021.ac2aflab.repositories.AdminRepository;
-import com.poo2021.ac2aflab.repositories.EventRepository;
-import com.poo2021.ac2aflab.repositories.PlaceRepository;
-
-=======
 import com.poo2021.ac2aflab.dto.Event.EventDTO;
 import com.poo2021.ac2aflab.dto.Event.EventInsertDTO;
 import com.poo2021.ac2aflab.dto.Event.EventUpdateDTO;
@@ -42,7 +25,6 @@ import com.poo2021.ac2aflab.repositories.AttendeeRepository;
 import com.poo2021.ac2aflab.repositories.EventRepository;
 import com.poo2021.ac2aflab.repositories.PlaceRepository;
 import com.poo2021.ac2aflab.repositories.TicketRepository;
->>>>>>> AF
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -62,12 +44,6 @@ public class EventService {
     private AdminRepository adminRepo;
 
     @Autowired
-<<<<<<< HEAD
-    private PlaceRepository placeRepo;
-
-    public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description) {
-        Page<Event> list = eventRepo.find(pageRequest, name, description);
-=======
     private AttendeeRepository attendeeRepo;
 
     @Autowired
@@ -78,42 +54,11 @@ public class EventService {
 
     public Page<EventDTO> getEvents(PageRequest pageRequest, String name, String description, String emailContact, LocalDate startDate) {
         Page<Event> list = eventRepo.find(pageRequest, name, description, emailContact, startDate);
->>>>>>> AF
         return list.map( a -> new EventDTO(a));
     }
 
     public EventDTO getEventById(Long id) {
         Optional<Event> op = eventRepo.findById(id);
-<<<<<<< HEAD
-        Event Event = op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found"));
-        return new EventDTO(Event);
-    }
-
-    public EventDTO insert(EventInsertDTO insertDTO) {
-        if (insertDTO.getStartDate().compareTo(insertDTO.getEndDate()) > 0) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                    "The end date should be bigger than the start date!");
-        } else if(!isDateTimeValid(insertDTO)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                    "Confilicting date time!");
-        } else {
-            Event entity = new Event(insertDTO);
-            for(Admin admin : adminRepo.findAll())
-            {
-                if(admin.getId() == insertDTO.getAdminId())
-                    entity.setAdmin(admin);    
-            }
-            for(Place place : placeRepo.findAll()) {
-                if(place.getId() == insertDTO.getPlaceId())
-                    entity.getPlaces().add(place);
-            }
-            entity = eventRepo.save(entity);
-            return new EventDTO(entity);
-        }
-    }
-
-    public void delete(Long id) {
-=======
         Event event = op.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found"));
         return new EventDTO(event);
     }
@@ -254,7 +199,6 @@ public class EventService {
             if(t.getAttendee() != null)
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Can't delete a event that already sold tickets");
         }
->>>>>>> AF
         try {
             eventRepo.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
@@ -262,19 +206,6 @@ public class EventService {
         }
     }
 
-<<<<<<< HEAD
-    public EventDTO update(Long id, EventUpdateDTO updateDTO) {
-
-        if (updateDTO.getStartDate().compareTo(updateDTO.getEndDate()) > 0) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                    "The end date should be bigger than the start date!");
-        } else if (updateDTO.getStartDate().compareTo(LocalDate.now()) < 0) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                    "Cannot update past events!");
-        } else if(!isDateTimeValid(updateDTO)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                    "Confilicting date time!");
-=======
     public void deletePlace(long eventId, Long placeId) {
         Event event;
         Place place;
@@ -340,7 +271,6 @@ public class EventService {
         } 
         else if (updateDTO.getEndDate().isBefore(LocalDate.now())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Cannot update past events!");
->>>>>>> AF
         } else{
             try {
                 Event entity = eventRepo.getOne(id);
@@ -352,12 +282,6 @@ public class EventService {
                 entity.setEndTime(updateDTO.getEndTime());
                 entity.setAmountFreeTickets(updateDTO.getAmountFreeTickets());
                 entity.setPriceTicket(updateDTO.getPriceTicket());
-<<<<<<< HEAD
-                entity.setTickets(updateDTO.getTickets());
-                entity.setPlaces(updateDTO.getPlaces());
-
-                entity = eventRepo.save(entity);
-=======
 
                 if(!isDateTimeValid(entity))
                     throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Confilicting date time!");
@@ -387,7 +311,6 @@ public class EventService {
 
                 entity = eventRepo.save(entity);
                 ticketRepo.saveAll(entity.getTickets());
->>>>>>> AF
                 return new EventDTO(entity);
             } catch (EntityNotFoundException e) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found");
@@ -395,14 +318,6 @@ public class EventService {
         }
     }
 
-<<<<<<< HEAD
-    private boolean isDateTimeValid(EventInsertDTO insertDTO) {
-        boolean b = true;
-
-        //se o horario inicial for maior que o horario final e estiverem no mesmo dia 
-        if(insertDTO.getStartTime().isAfter(insertDTO.getEndTime()) && insertDTO.getStartDate().compareTo(insertDTO.getEndDate()) == 0)
-            b = false;
-=======
     private boolean isDateTimeValid(Event event) {
         boolean b = true;
 
@@ -412,7 +327,6 @@ public class EventService {
             b = false;
             return b;
         }
->>>>>>> AF
         for(Event e: eventRepo.findAll()) {
 
             LocalTime startT = e.getStartTime();
@@ -420,33 +334,13 @@ public class EventService {
             LocalDate startD = e.getStartDate();
             LocalDate endD = e.getEndDate();
             for(Place p : e.getPlaces()) {
-<<<<<<< HEAD
-                if(p.getId() == insertDTO.getPlaceId()) {
-
-                
-                
-            
-=======
                 if(event.getPlaces().contains(p) && e.getId() != event.getId()) {
 
->>>>>>> AF
                     //se a data INICIAL inserida for IGUAL a data INICIAL ja alocada OU se a data FINAL inserida for IGUAL a data FINAL ja alocada OU 
                     //se a data INICIAL inserida for IGUAL a data FINAL ja alocada OU se a data FINAL inserida for IGUAL a data INICIAL ja alocada OU 
                     //se a data INICIAL inserida estiver DEPOIS da data FINAL ja alocada E se a data INICIAL inserida estiver ANTES da data FINAL ja alocada OU
                     //se a data FINAL inserida estiver DEPOIS da data FINAL ja alocada E se a data FINAL inserida estiver ANTES da data FINAL ja alocada OU
                     //se a data INICIAL inserida estiver ANTES da data INICIAL ja alocada E se a data FINAL inserida estiver DEPOIS da data FINAL ja alocada
-<<<<<<< HEAD
-                    if(insertDTO.getStartDate().compareTo(startD) == 0 || insertDTO.getEndDate().compareTo(endD) == 0 ||
-                       insertDTO.getStartDate().compareTo(endD) == 0 || insertDTO.getEndDate().compareTo(startD) == 0 ||
-                       insertDTO.getStartDate().isAfter(startD) &&  insertDTO.getStartDate().isBefore(endD) || 
-                       insertDTO.getEndDate().isAfter(startD) && insertDTO.getEndDate().isBefore(endD) || 
-                       insertDTO.getStartDate().isBefore(startD) && insertDTO.getEndDate().isAfter(endD)) {
-
-                        //se o horario INICIAL inserido for IGUAL o horario INICIAL ja alocado OU se o horario FINAL inserido for IGUAL o horario FINAL ja alocado OU 
-                        //se o horario INICIAL inserido for IGUAL o horario FINAL ja alocado OU se o horario FINAL inserido for IGUAL o horario INICIAL ja alocado OU 
-                        if(insertDTO.getStartTime().compareTo(startT) == 0 || insertDTO.getEndTime().compareTo(endT) == 0  || 
-                            insertDTO.getStartTime().compareTo(endT) == 0 || insertDTO.getEndTime ().compareTo(startT) == 0) {
-=======
                     if(event.getStartDate().compareTo(startD) == 0 || event.getEndDate().compareTo(endD) == 0 ||
                     event.getStartDate().compareTo(endD) == 0 || event.getEndDate().compareTo(startD) == 0 ||
                     event.getStartDate().isAfter(startD) &&  event.getStartDate().isBefore(endD) || 
@@ -457,94 +351,28 @@ public class EventService {
                         //se o horario INICIAL inserido for IGUAL o horario FINAL ja alocado OU se o horario FINAL inserido for IGUAL o horario INICIAL ja alocado OU 
                         if(event.getStartTime().compareTo(startT) == 0 || event.getEndTime().compareTo(endT) == 0  || 
                             event.getStartTime().compareTo(endT) == 0 || event.getEndTime ().compareTo(startT) == 0) {
->>>>>>> AF
                             b = false;
                             break;
                         }
 
                         //se o horario INICIAL inserido estiver DEPOIS do horario FINAL ja alocado E se o horario INICIAL inserido estiver ANTES do horario FINAL ja alocado OU
                         //se o horario FINAL inserido estiver DEPOIS do horario FINAL ja alocado E se o horario FINAL inserido estiver ANTES do horario FINAL ja alocado OU
-<<<<<<< HEAD
-                        else if(insertDTO.getStartTime().isAfter(startT) &&  insertDTO.getStartTime().isBefore(endT) || 
-                                insertDTO.getEndTime().isAfter(startT) && insertDTO.getEndTime().isBefore(endT)){
-=======
                         else if(event.getStartTime().isAfter(startT) &&  event.getStartTime().isBefore(endT) || 
                                 event.getEndTime().isAfter(startT) && event.getEndTime().isBefore(endT)){
->>>>>>> AF
                                 b = false;
                                 break;
                             }   
 
                         //se o horario INICIAL inserido estiver ANTES do horario INICIAL ja alocado E se o horario FINAL inserido estiver DEPOIS do horario FINAL ja alocado
-<<<<<<< HEAD
-                        else if(insertDTO.getStartTime().isBefore(startT) && insertDTO.getEndTime().isAfter(endT)){
-=======
                         else if(event.getStartTime().isBefore(startT) && event.getEndTime().isAfter(endT)){
->>>>>>> AF
                             b = false;
                             break;
                         }
                     }
                 }
             }
-<<<<<<< HEAD
-    }
-        return b;
-    }
-
-    private boolean isDateTimeValid(EventUpdateDTO updateDTO) {
-        boolean b = true;
-        //se o horario inicial for maior que o horario final e estiverem no mesmo dia 
-        if(updateDTO.getStartTime().isAfter(updateDTO.getEndTime()) && updateDTO.getStartDate().compareTo(updateDTO.getEndDate()) == 0)
-            b = false;
-        for(Event e: eventRepo.findAll()) {
-
-            LocalTime startT = e.getStartTime();
-            LocalTime endT = e.getEndTime();
-            LocalDate startD = e.getStartDate();
-            LocalDate endD = e.getEndDate();
-
-            for(Place p: placeRepo.findAll())
-            {
-                if (p.getId() != updateDTO.getPlaceId()) {
-
-                    //se a data INICIAL inserida for IGUAL a data INICIAL ja alocada OU se a data FINAL inserida for IGUAL a data FINAL ja alocada OU 
-                    //se a data INICIAL inserida for IGUAL a data FINAL ja alocada OU se a data FINAL inserida for IGUAL a data INICIAL ja alocada OU 
-                    //se a data INICIAL inserida estiver DEPOIS da data FINAL ja alocada E se a data INICIAL inserida estiver ANTES da data FINAL ja alocada OU
-                    //se a data FINAL inserida estiver DEPOIS da data FINAL ja alocada E se a data FINAL inserida estiver ANTES da data FINAL ja alocada OU
-                    //se a data INICIAL inserida estiver ANTES da data INICIAL ja alocada E se a data FINAL inserida estiver DEPOIS da data FINAL ja alocada
-                    if(updateDTO.getStartDate().compareTo(startD) == 0 || updateDTO.getEndDate().compareTo(endD) == 0 ||
-                        updateDTO.getStartDate().compareTo(endD) == 0 || updateDTO.getEndDate().compareTo(startD) == 0 ||
-                        updateDTO.getStartDate().isAfter(startD) &&  updateDTO.getStartDate().isBefore(endD) || 
-                        updateDTO.getEndDate().isAfter(startD) && updateDTO.getEndDate().isBefore(endD) || 
-                        updateDTO.getStartDate().isBefore(startD) && updateDTO.getEndDate().isAfter(endD)) {
-
-                        //se o horario INICIAL inserido for IGUAL o horario INICIAL ja alocado OU se o horario FINAL inserido for IGUAL o horario FINAL ja alocado OU 
-                        //se o horario INICIAL inserido for IGUAL o horario FINAL ja alocado OU se o horario FINAL inserido for IGUAL o horario INICIAL ja alocado OU 
-                        if(updateDTO.getStartTime().compareTo(startT) == 0 || updateDTO.getEndTime().compareTo(endT) == 0  || 
-                            updateDTO.getStartTime().compareTo(endT) == 0 || updateDTO.getEndTime ().compareTo(startT) == 0)
-                            b = false;
-
-                        //se o horario INICIAL inserido estiver DEPOIS do horario FINAL ja alocado E se o horario INICIAL inserido estiver ANTES do horario FINAL ja alocado OU
-                        //se o horario FINAL inserido estiver DEPOIS do horario FINAL ja alocado E se o horario FINAL inserido estiver ANTES do horario FINAL ja alocado OU
-                        else if(updateDTO.getStartTime().isAfter(startT) &&  updateDTO.getStartTime().isBefore(endT) || 
-                                updateDTO.getEndTime().isAfter(startT) && updateDTO.getEndTime().isBefore(endT))
-                                b = false;   
-
-                        //se o horario INICIAL inserido estiver ANTES do horario INICIAL ja alocado E se o horario FINAL inserido estiver DEPOIS do horario FINAL ja alocado
-                        else if(updateDTO.getStartTime().isBefore(startT) && updateDTO.getEndTime().isAfter(endT))
-                            b = false;
-                    }
-                }
-            }
-=======
->>>>>>> AF
         }
         return b;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> AF
 }

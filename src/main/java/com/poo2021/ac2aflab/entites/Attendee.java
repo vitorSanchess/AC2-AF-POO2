@@ -9,12 +9,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-<<<<<<< HEAD:src/main/java/com/poo2021/ac2aflab/entites/Attendee.java
-import com.poo2021.ac2aflab.dto.AttendeeInsertDTO;
-=======
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poo2021.ac2aflab.dto.Attendee.AttendeeInsertDTO;
->>>>>>> AF:src/main/java/com/poo2021/ac2aflab/entites/Attend.java
 
 @Entity
 @Table(name="TB_ATTENDEE")
