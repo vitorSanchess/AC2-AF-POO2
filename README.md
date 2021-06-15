@@ -3,9 +3,11 @@
 Nome: Vitor Guilherme Sanches Magnani de Sobral.  
 RA: 190093 
 
-### Entidades
+### Admins
 
-#### Admins
+##### https://poo2-af-2021-s1.herokuapp.com/admins/
+
+##### Insert & Update
 
 ```json
 {  
@@ -15,7 +17,13 @@ RA: 190093
 }
 ```
 
-#### Attendees
+
+
+### Attendees
+
+##### https://poo2-af-2021-s1.herokuapp.com/attendees/
+
+##### Insert & Update
 
 ```json
 {  
@@ -24,7 +32,13 @@ RA: 190093
 }
 ```
 
-#### Places
+
+
+### Places
+
+##### https://poo2-af-2021-s1.herokuapp.com/places/
+
+##### Insert & Update
 
 ```json
 {  
@@ -33,7 +47,13 @@ RA: 190093
 }
 ```
 
+
+
 #### Events
+
+##### https://poo2-af-2021-s1.herokuapp.com/events/
+
+##### Insert
 
 ```json
 {  
@@ -47,9 +67,53 @@ RA: 190093
     "amountFreeTickets": 50,  
     "amountPayedTickets": 250,  
     "priceTicket": 50,  
-    "adminId": 1,  
-    "tickets": [],  
+    "adminId": 1,   
     "placeId": 1  
 }
 ```
-obsersavação: os atributos adminId e placeId são utilizados apenas no no comando GET, enquanto nos outros comandos aparecerá as respectivas entidades se houver alguma entidade alocada
+##### Update
+
+```json
+{  
+    "name": "Show de standup",  
+    "description": "muito humor e risada",  
+    "startDate": "2021-11-17",  
+    "endDate": "2021-11-17",  
+    "startTime": "19:30:00",  
+    "endTime": "21:00:00",  
+    "emailContact": "contato@risadaria.com.br",  
+    "amountFreeTickets": 50,  
+    "amountPayedTickets": 250,  
+    "priceTicket": 50,  
+    "oldPlaceId": 1,
+    "newPlaceId": 3
+}
+```
+
+#### Events/id/tickets
+
+##### https://poo2-af-2021-s1.herokuapp.com/events/1/tickets
+
+##### Insert
+
+```json
+{
+    "attendeeId" : 4,
+    "type" : "FREE"
+}
+```
+
+##### Delete
+
+```json
+{
+    "attendeeId" : 4,
+    "ticketId" : 4
+}
+```
+
+#### Events/eventId/places/placeId
+
+##### https://poo2-af-2021-s1.herokuapp.com/events/1/places/1
+
+
